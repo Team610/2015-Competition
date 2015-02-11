@@ -45,8 +45,7 @@ public class Robot extends IterativeRobot {
     	//Mr. Lim
     	//Nicholas!
     	//William
-    	//Ian
-
+    	//Blank Space
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
         readings = new D_SensorReadings();
