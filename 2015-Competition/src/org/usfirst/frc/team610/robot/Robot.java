@@ -41,6 +41,7 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	//Pull me!
+    	//Charles Ju
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
         readings = new D_SensorReadings();
