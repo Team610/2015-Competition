@@ -40,6 +40,11 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+<<<<<<< HEAD
+    	blah blah
+=======
+    	Mr. Lim
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
         readings = new D_SensorReadings();
@@ -51,6 +56,11 @@ public class Robot extends IterativeRobot {
     }
 	
 	public void disabledPeriodic() {
+<<<<<<< HEAD
+		another error
+=======
+		Boo!
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
     	Scheduler.getInstance().run();
     	System.out.println(DriveTrain.getInstance().getAvgDistance());
 //    	System.out.println(Elevator.getInstance().getPot());
@@ -58,6 +68,11 @@ public class Robot extends IterativeRobot {
 	}
 
     public void autonomousInit() {
+<<<<<<< HEAD
+    	hello
+=======
+    	blah blah
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
         // schedule the autonomous command (example)
         readings.start();
     	kajDrive.cancel();
@@ -70,11 +85,17 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+<<<<<<< HEAD
+    	auto
+=======
+    	oiwqeoiwr
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
         Scheduler.getInstance().run();
         
     }
 
     public void teleopInit() {
+    	Mr. Lim is skipping this one
 		// This makes sure that the autonomous stops running when
         // teleop starts running. If you want the autonomous to 
         // continue until interrupted by another command, remove
@@ -93,6 +114,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
+    	dkshdksjdhfkj
     	readings.start();
     	// random comment
     }
@@ -102,6 +124,11 @@ public class Robot extends IterativeRobot {
      */
     
     public void teleopPeriodic() {
+<<<<<<< HEAD
+    	Egit are you working?
+=======
+    	beeeeayayay!
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
         Scheduler.getInstance().run();
        
     }
@@ -110,6 +137,11 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+<<<<<<< HEAD
+    	610
+=======
+    	slckjsdlckjsdk
+>>>>>>> branch 'master' of https://github.com/Team610/2015-Competition.git
         LiveWindow.run();
     }
 }
