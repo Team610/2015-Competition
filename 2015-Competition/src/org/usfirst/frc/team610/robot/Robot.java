@@ -41,10 +41,10 @@ public class Robot extends IterativeRobot {
      */
     public void robotInit() {
     	//Pull me!
+    	//Jack Williamson
     	//Charles Ju
     	//Mr. Lim
     	//Nicholas!
-    	//William
     	//Blank Space
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
