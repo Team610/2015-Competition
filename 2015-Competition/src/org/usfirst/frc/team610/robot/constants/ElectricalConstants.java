@@ -37,6 +37,11 @@ public class ElectricalConstants {
 	public static final double ELEVATOR_THREETOTES = 0.38;
 	public static final double ELEVATOR_FOURTOTES = 0.24;
 	public static final double ELEVATOR_FIVETOTES = 0.15;
+	public static final double ELEVATOR_ONEBINS = 0;
+	public static final double ELEVATOR_TWOBINS = 0;
+	public static final double ELEVATOR_THREEBINS = 0;
+	public static final double ELEVATOR_FOURBINS = 0;
+	public static final double ELEVATOR_FIVEBINS = 0;
 	
 	public static final int BUMPER_SOLENOID_ARM1 = 0;
 	public static final int BUMPER_SOLENOID_ARM2 = 1;

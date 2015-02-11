@@ -21,9 +21,17 @@ public class T_Elevator extends Command {
 	int elevatorPosition = 0;
 	double iCounter;
 	double oneTote, twoTotes, threeTotes, fourTotes;
+	double oneBin, twoBins, threeBins, fourBins;
 	double currentPosition;
 	double targetSetpoint = 0.7;
+	int getPov = 0;
 	int lastElevatorPosition;
+	// int position = 0;
+	boolean isContainerHeight = true;
+	// boolean XisPressed = false;
+	// boolean BisPressed = false;
+	boolean upDIsPressed = false;
+	boolean downDIsPressed = false;
 
 	public T_Elevator() {
 		// Use requires() here to declare subsystem dependencies
@@ -36,7 +44,12 @@ public class T_Elevator extends Command {
 		threeTotes = ElectricalConstants.ELEVATOR_THREETOTES;
 		oneTote = ElectricalConstants.ELEVATOR_BOTTOM;
 		fourTotes = ElectricalConstants.ELEVATOR_FOURTOTES;
+		oneBin = ElectricalConstants.ELEVATOR_ONEBINS;
+		twoBins = ElectricalConstants.ELEVATOR_TWOBINS;
+		threeBins = ElectricalConstants.ELEVATOR_THREEBINS;
+		fourBins = ElectricalConstants.ELEVATOR_FOURBINS;
 		currentPosition = 0;
+
 		lastElevatorPosition = 0;
 
 	}
@@ -47,31 +60,63 @@ public class T_Elevator extends Command {
 
 	// Called repeatedly when this Command is scheduled to run
 	protected void execute() {
+
+		// b for bins
+		if (operator.getRawButton(InputConstants.BTN_B)) {
+			isContainerHeight = true;
+		}
+
+		// x for totes
+		if (operator.getRawButton(InputConstants.BTN_X)) {
+			isContainerHeight = false;
+		}
+
+		// getPov gets from 0-8, 0 being the middle of the stick
+		getPov = operator.getPOV();
 		double curPot = elevator.getPot();
+
+		if (getPov == 1 && !upDIsPressed) {
+			elevatorPosition++;
+			upDIsPressed = true;
+			if (elevatorPosition >= 5) {
+				elevatorPosition--;
+			}
+		} else if (getPov == 5 && !downDIsPressed) {
+			elevatorPosition--;
+			downDIsPressed = true;
+			if (elevatorPosition <= 0) {
+				elevatorPosition++;
+			}
+		}
+
+		if (getPov == 0) {
+			upDIsPressed = false;
+			downDIsPressed = false;
+		}
 
 		// TOTE POSITION START \\
 		// SetElevator Position
-		if (operator.getRawButton(InputConstants.BTN_A)) {
-			elevatorPosition = 0;
-			iCounter = 0;
-		}
-		if (operator.getRawButton(InputConstants.BTN_B)) {
-			elevatorPosition = 1;
-			iCounter = 0;
-
-		}
-		if (operator.getRawButton(InputConstants.BTN_Y)) {
-			elevatorPosition = 2;
-			iCounter = 0;
-		}
-		if (operator.getRawButton(InputConstants.BTN_X)) {
-			elevatorPosition = 3;
-			iCounter = 0;
-		}
+		// if (operator.getRawButton(InputConstants.BTN_A)) {
+		// elevatorPosition = 0;
+		// iCounter = 0;
+		// }
+		// if (operator.getRawButton(InputConstants.BTN_B)) {
+		// elevatorPosition = 1;
+		// iCounter = 0;
+		//
+		// }
+		// if (operator.getRawButton(InputConstants.BTN_Y)) {
+		// elevatorPosition = 2;
+		// iCounter = 0;
+		// }
+		// if (operator.getRawButton(InputConstants.BTN_X)) {
+		// elevatorPosition = 3;
+		// iCounter = 0;
+		// }
 
 		// Trimming
 		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y) * 0.005;
-		if (Math.abs(trim) > 0.05*0.005) {
+		if (Math.abs(trim) > 0.05 * 0.005) {
 
 			switch (elevatorPosition) {
 
@@ -101,24 +146,43 @@ public class T_Elevator extends Command {
 				break;
 			}
 		}
+		if (isContainerHeight) {
+			switch (elevatorPosition) {
 
-		switch (elevatorPosition) {
+			case 0:
+				targetSetpoint = oneTote;
 
-		case 0:
-			targetSetpoint = oneTote;
+				break;
+			case 1:
+				targetSetpoint = twoTotes;
+				break;
+			case 2:
+				targetSetpoint = threeTotes;
+				break;
+			case 3:
+				targetSetpoint = fourTotes;
+				break;
 
-			break;
-		case 1:
-			targetSetpoint = twoTotes;
-			break;
-		case 2:
-			targetSetpoint = threeTotes;
-			break;
-		case 3:
-			targetSetpoint = fourTotes;
-			break;
+			}
+		} else {
+			switch (elevatorPosition) {
 
+			case 0:
+				targetSetpoint = oneBin;
+
+				break;
+			case 1:
+				targetSetpoint = twoBins;
+				break;
+			case 2:
+				targetSetpoint = threeBins;
+				break;
+			case 3:
+				targetSetpoint = fourBins;
+				break;
+			}
 		}
+
 		// TOTE POSITION STOP \\
 		SmartDashboard.putNumber("TotePos:", oneTote);
 		SmartDashboard.putNumber("LowPos:", twoTotes);
@@ -150,8 +214,8 @@ public class T_Elevator extends Command {
 
 		// PID motor
 
-		//elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
-		//		* ElectricalConstants.ELEVATOR_I);
+		// elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
+		// * ElectricalConstants.ELEVATOR_I);
 		SmartDashboard.putNumber("Elevator Position", elevatorPosition);
 		SmartDashboard
 				.putNumber("Last Elevator Position", lastElevatorPosition);
