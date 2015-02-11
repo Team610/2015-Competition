@@ -40,6 +40,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
+    	Mr. Lim
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
         readings = new D_SensorReadings();
@@ -51,7 +52,7 @@ public class Robot extends IterativeRobot {
     }
 	
 	public void disabledPeriodic() {
-		
+		Boo!
     	Scheduler.getInstance().run();
     	System.out.println(DriveTrain.getInstance().getAvgDistance());
 //    	System.out.println(Elevator.getInstance().getPot());
@@ -59,6 +60,7 @@ public class Robot extends IterativeRobot {
 	}
 
     public void autonomousInit() {
+    	blah blah
         // schedule the autonomous command (example)
         readings.start();
     	kajDrive.cancel();
@@ -71,6 +73,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during autonomous
      */
     public void autonomousPeriodic() {
+    	oiwqeoiwr
         Scheduler.getInstance().run();
         
     }
@@ -94,6 +97,7 @@ public class Robot extends IterativeRobot {
      * You can use it to reset subsystems before shutting down.
      */
     public void disabledInit(){
+    	dkshdksjdhfkj
     	readings.start();
 
     }
@@ -103,6 +107,7 @@ public class Robot extends IterativeRobot {
      */
     
     public void teleopPeriodic() {
+    	beeeeayayay!
         Scheduler.getInstance().run();
        
     }
@@ -111,6 +116,7 @@ public class Robot extends IterativeRobot {
      * This function is called periodically during test mode
      */
     public void testPeriodic() {
+    	slckjsdlckjsdk
         LiveWindow.run();
     }
 }
