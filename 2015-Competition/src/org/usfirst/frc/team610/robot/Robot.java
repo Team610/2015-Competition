@@ -40,7 +40,7 @@ public class Robot extends IterativeRobot {
      * used for any initialization code.
      */
     public void robotInit() {
-		
+		Make all the errors
         // instantiate the command used for the autonomous period
         kajDrive = new T_KajDrive();
         readings = new D_SensorReadings();
