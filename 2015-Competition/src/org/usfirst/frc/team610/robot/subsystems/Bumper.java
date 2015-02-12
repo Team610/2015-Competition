@@ -43,7 +43,7 @@ public class Bumper extends Subsystem {
     	return instance;
     }
     
-    public void setArm(boolean position){
+    public void setArmsUp(boolean position){
     	if(position){
     		arm.set(DoubleSolenoid.Value.kForward);
     	} else {
@@ -51,7 +51,7 @@ public class Bumper extends Subsystem {
     	}
     }
     
-    public void setWings(boolean position){
+    public void setWingsOpen(boolean position){
     	if(position){
     		wings.set(DoubleSolenoid.Value.kForward);
     	} else {

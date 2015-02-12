@@ -9,11 +9,16 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class A_Winch extends Command {
 
+	//The singleton bumper
 	Bumper bumper;
+	//Checks if command is Finished
 	boolean isFinished;
+	//Distance to move to
 	double distance;
 	
+	
     public A_Winch(double distance) {
+    	//Gets bumper
     	bumper = Bumper.getInstance();
     	this.distance = distance;
         // Use requires() here to declare subsystem dependencies
@@ -22,15 +27,21 @@ public class A_Winch extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+    	//Reset the Encoder on the Winch
     	bumper.resetWinchEncoder();
     }
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
+    	//if the current encoder read is less than how far we need to go, keep pulling the winch
+    	//in
     	if(bumper.getWinchEncoder() <= distance){
+    		//Sets the winch motor
     		bumper.setWinch(distance);
+    		//Keeps the command running
     		isFinished = false;
     	} else {
+    		//If we are at the correct distance, finish the command
     		isFinished = true;
     	}
     	
@@ -38,6 +49,7 @@ public class A_Winch extends Command {
 
     // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
+    	//Returns true if the command is finished
         return isFinished;
     }
 

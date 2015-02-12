@@ -14,32 +14,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class T_Elevator extends Command {
 
-	Elevator elevator;
-	Joystick driver, operator;
-	OI oi;
-	double bottomPoint, midPoint;
-	int elevatorPosition = 0;
-	double iCounter;
-	double oneTote, twoTotes, threeTotes, fourTotes;
-	double oneBin, twoBins, threeBins, fourBins;
-	double currentPosition;
-	double targetSetpoint = 0.7;
-	int getPov = 0;
-	int lastElevatorPosition;
-	// int position = 0;
-	boolean isContainerHeight = true;
-	// boolean XisPressed = false;
-	// boolean BisPressed = false;
-	boolean upDIsPressed = false;
-	boolean downDIsPressed = false;
+	//Singleton Elevator
+	private Elevator elevator;
+	//Singleton driver and operator joysticks.
+	private Joystick driver, operator;
+	//Singleton subsystem for joysticks.
+	private OI oi;
+	//Predetermined height position of elevator.
+	private int elevatorPosition = 0;
+	//For I correction.
+	private double iCounter;
+	//Positions for tote and bin stacking.
+	private double oneTote, twoTotes, threeTotes, fourTotes;
+	private double oneBin, twoBins, threeBins, fourBins;
+	//The target height.
+	private double targetSetpoint = 0.7;
+	//Input from dpad on operator controller.
+	private int getPov = 0;
+	//Boolean for whether elevator is going to bin or tote set positions.
+	private boolean isContainerHeight = true;
+	//Booleans for whether Dpad buttons are pressed
+	private boolean upDIsPressed = false;
+	private boolean downDIsPressed = false;
 
 	public T_Elevator() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
+		//Set oi to singleton instance of the subsystem of joysticks.
 		oi = OI.getInstance();
+		//Set to singleton instance of the driver and operator joysticks.
 		driver = oi.getDriver();
 		operator = oi.getOperator();
+		//Set to singleton instance of the elevator.
 		elevator = Elevator.getInstance();
+		//Set values to predetermined heights.
 		twoTotes = ElectricalConstants.ELEVATOR_TWOTOTES;
 		threeTotes = ElectricalConstants.ELEVATOR_THREETOTES;
 		oneTote = ElectricalConstants.ELEVATOR_BOTTOM;
@@ -48,9 +56,7 @@ public class T_Elevator extends Command {
 		twoBins = ElectricalConstants.ELEVATOR_TWOBINS;
 		threeBins = ElectricalConstants.ELEVATOR_THREEBINS;
 		fourBins = ElectricalConstants.ELEVATOR_FOURBINS;
-		currentPosition = 0;
 
-		lastElevatorPosition = 0;
 
 	}
 
@@ -62,34 +68,39 @@ public class T_Elevator extends Command {
 	protected void execute() {
 
 		// b for bins
+		//When b pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_B)) {
 			isContainerHeight = true;
 		}
 
 		// x for totes
+		//When x pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_X)) {
 			isContainerHeight = false;
 		}
 
-		// getPov gets from 0-8, 0 being the middle of the stick
+		//D Pad controles
 		getPov = operator.getPOV();
 		double curPot = elevator.getPot();
 
-		if (getPov == 1 && !upDIsPressed) {
-			elevatorPosition++;
-			upDIsPressed = true;
-			if (elevatorPosition >= 5) {
-				elevatorPosition--;
-			}
-		} else if (getPov == 5 && !downDIsPressed) {
-			elevatorPosition--;
-			downDIsPressed = true;
-			if (elevatorPosition <= 0) {
+		if ((getPov == 0 || getPov == 45 || getPov == 315) && !upDIsPressed) {
+			if (elevatorPosition < 3) {
 				elevatorPosition++;
+				iCounter = 0;
 			}
+			upDIsPressed = true;
+
+		} else if ((getPov == 180 || getPov == 215 || getPov == 135)
+				&& !downDIsPressed) {
+			if (elevatorPosition > 0) {
+				elevatorPosition--;
+				iCounter = 0;
+			}
+			downDIsPressed = true;
+
 		}
 
-		if (getPov == 0) {
+		if (getPov == -1) {
 			upDIsPressed = false;
 			downDIsPressed = false;
 		}
@@ -217,9 +228,9 @@ public class T_Elevator extends Command {
 		// elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
 		// * ElectricalConstants.ELEVATOR_I);
 		SmartDashboard.putNumber("Elevator Position", elevatorPosition);
-		SmartDashboard
-				.putNumber("Last Elevator Position", lastElevatorPosition);
-		lastElevatorPosition = elevatorPosition;
+//		SmartDashboard
+//				.putNumber("Last Elevator Position", lastElevatorPosition);
+		//lastElevatorPosition = elevatorPosition;
 
 	}
 

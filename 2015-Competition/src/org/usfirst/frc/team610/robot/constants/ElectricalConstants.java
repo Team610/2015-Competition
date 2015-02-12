@@ -16,13 +16,8 @@ public class ElectricalConstants {
 	public static final int INTAKE_SOL_F = 3;
 	public static final int INTAKE_SOL_R = 2;	
 	
-	public static final boolean CROSSBOW_DOWN = false;
-	public static final boolean CROSSBOW_UP = true;
+
 	public static final double ENCODER_INCHES = 0.0772635814889336 ;
-	public static final double GYRO_P = -0.035; //-0.035
-	public static final double GYRO_D = -0.225; //0.012
-	public static final double ENCODER_P = 0.1; //0.1
-	public static final double ENCODER_D = 5; //3
 	public static final int POT_ANALOGPORT = 0;
 	public static final int OPTICALSENSOR_PORT = 4;
 	
