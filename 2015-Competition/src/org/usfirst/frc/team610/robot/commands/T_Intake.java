@@ -25,7 +25,7 @@ public class T_Intake extends Command {
 	private DigitalInput optical;
 
 	public T_Intake() {
-		// Gets the singleton in
+		// Singleton Instance of 
 		oi = OI.getInstance();
 		intake = Intake.getInstance();
 		driver = oi.getDriver();

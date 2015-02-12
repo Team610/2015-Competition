@@ -182,6 +182,7 @@ public class T_Elevator extends Command {
 				break;
 
 			}
+			//If isStacking is false, then we are stacking totes. 
 		} else {
 			switch (elevatorPosition) {
 
@@ -207,6 +208,7 @@ public class T_Elevator extends Command {
 		SmartDashboard.putNumber("MidPos:", threeTotes);
 		SmartDashboard.putNumber("TopPos:", fourTotes);
 
+		//Error for P
 		double error = 0;
 
 		// Pot Cap
@@ -231,9 +233,18 @@ public class T_Elevator extends Command {
 		}
 
 		// Set the motor using PID
-		elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
-				* ElectricalConstants.ELEVATOR_I);
-
+		double setMotorValue = ElectricalConstants.ELEVATOR_P * error + iCounter
+				* ElectricalConstants.ELEVATOR_I;
+		//UNTESTED HARDSTOP LIMIT
+		if(Math.abs(ElectricalConstants.ElEVATOR_MID - curPot)  < 0.10){
+			//Ian make it fancy
+			if (setMotorValue > 1){
+			setMotorValue = 1;
+			}
+			elevator.setMotor(setMotorValue*0.3);
+		}else{
+		elevator.setMotor(setMotorValue);
+		}
 		SmartDashboard.putNumber("Elevator Position", elevatorPosition);
 
 		// SmartDashboard.putNumber("Last Elevator Position",

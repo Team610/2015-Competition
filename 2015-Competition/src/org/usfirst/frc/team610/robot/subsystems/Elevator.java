@@ -9,7 +9,7 @@ import edu.wpi.first.wpilibj.command.Subsystem;
 import edu.wpi.first.wpilibj.interfaces.Potentiometer;
 
 /**
- *
+ * @author Jamie
  */
 public class Elevator extends Subsystem {
     
