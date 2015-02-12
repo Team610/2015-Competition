@@ -14,40 +14,40 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class T_Elevator extends Command {
 
-	//Singleton Elevator
+	// Singleton Elevator
 	private Elevator elevator;
-	//Singleton driver and operator joysticks.
+	// Singleton driver and operator joysticks.
 	private Joystick driver, operator;
-	//Singleton subsystem for joysticks.
+	// Singleton subsystem for joysticks.
 	private OI oi;
-	//Predetermined height position of elevator.
+	// Predetermined height position of elevator.
 	private int elevatorPosition = 0;
-	//For I correction.
+	// For I correction.
 	private double iCounter;
-	//Positions for tote and bin stacking.
+	// Positions for tote and bin stacking.
 	private double oneTote, twoTotes, threeTotes, fourTotes;
 	private double oneBin, twoBins, threeBins, fourBins;
-	//The target height.
+	// The target height.
 	private double targetSetpoint = 0.7;
-	//Input from dpad on operator controller.
+	// Input from dpad on operator controller.
 	private int getPov = 0;
-	//Boolean for whether elevator is going to bin or tote set positions.
+	// Boolean for whether elevator is going to bin or tote set positions.
 	private boolean isStackingContainer = true;
-	//Booleans for whether Dpad buttons are pressed
+	// Booleans for whether Dpad buttons are pressed
 	private boolean upDIsPressed = false;
 	private boolean downDIsPressed = false;
 
 	public T_Elevator() {
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
-		//Set oi to singleton instance of the subsystem of joysticks.
+		// Set oi to singleton instance of the subsystem of joysticks.
 		oi = OI.getInstance();
-		//Set to singleton instance of the driver and operator joysticks.
+		// Set to singleton instance of the driver and operator joysticks.
 		driver = oi.getDriver();
 		operator = oi.getOperator();
-		//Set to singleton instance of the elevator.
+		// Set to singleton instance of the elevator.
 		elevator = Elevator.getInstance();
-		//Set values to predetermined heights.
+		// Set values to predetermined heights.
 		twoTotes = ElectricalConstants.ELEVATOR_TWOTOTES;
 		threeTotes = ElectricalConstants.ELEVATOR_THREETOTES;
 		oneTote = ElectricalConstants.ELEVATOR_BOTTOM;
@@ -56,7 +56,6 @@ public class T_Elevator extends Command {
 		twoBins = ElectricalConstants.ELEVATOR_TWOBINS;
 		threeBins = ElectricalConstants.ELEVATOR_THREEBINS;
 		fourBins = ElectricalConstants.ELEVATOR_FOURBINS;
-
 
 	}
 
@@ -68,23 +67,24 @@ public class T_Elevator extends Command {
 	protected void execute() {
 
 		// b for bins
-		//When b pressed, set heights to container heights.
+		// When b pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_B)) {
 			isStackingContainer = true;
 		}
 
 		// x for totes
-		//When x pressed, set heights to container heights.
+		// When x pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_X)) {
 			isStackingContainer = false;
 		}
 
-		//D Pad input from driver
+		// D Pad input from driver
 		getPov = operator.getPOV();
-		//Gets current pot value from the Elevator
+		// Gets current pot value from the Elevator
 		double curPot = elevator.getPot();
-		
-		//If Dpad is in any of the upwards 3 position, increment the Elevator Position.
+
+		// If Dpad is in any of the upwards 3 position, increment the Elevator
+		// Position.
 		if ((getPov == 0 || getPov == 45 || getPov == 315) && !upDIsPressed) {
 			if (elevatorPosition < 3) {
 				elevatorPosition++;
@@ -92,7 +92,8 @@ public class T_Elevator extends Command {
 			}
 			upDIsPressed = true;
 
-			//Same as before, but decrements the Elevator Position when dpad is one of the downwards 3 positions
+			// Same as before, but decrements the Elevator Position when dpad is
+			// one of the downwards 3 positions
 		} else if ((getPov == 180 || getPov == 215 || getPov == 135)
 				&& !downDIsPressed) {
 			if (elevatorPosition > 0) {
@@ -103,7 +104,8 @@ public class T_Elevator extends Command {
 
 		}
 
-		//When the Dpad is not pressed, set the booleans for isPressed to both false. 
+		// When the Dpad is not pressed, set the booleans for isPressed to both
+		// false.
 		if (getPov == -1) {
 			upDIsPressed = false;
 			downDIsPressed = false;
@@ -161,7 +163,7 @@ public class T_Elevator extends Command {
 				break;
 			}
 		}
-		//If we are stacking containers
+		// If we are stacking containers
 		if (isStackingContainer) {
 			switch (elevatorPosition) {
 
@@ -228,14 +230,15 @@ public class T_Elevator extends Command {
 			}
 		}
 
-		// PID motor
+		// Set the motor using PID
+		elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
+				* ElectricalConstants.ELEVATOR_I);
 
-		// elevator.setMotor(ElectricalConstants.ELEVATOR_P * error + iCounter
-		// * ElectricalConstants.ELEVATOR_I);
 		SmartDashboard.putNumber("Elevator Position", elevatorPosition);
-//		SmartDashboard
-//				.putNumber("Last Elevator Position", lastElevatorPosition);
-		//lastElevatorPosition = elevatorPosition;
+
+		// SmartDashboard.putNumber("Last Elevator Position",
+		// lastElevatorPosition);
+		// lastElevatorPosition = elevatorPosition;
 
 	}
 

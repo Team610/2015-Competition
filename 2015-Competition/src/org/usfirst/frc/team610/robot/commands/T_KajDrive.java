@@ -14,10 +14,14 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class T_KajDrive extends Command {
 
-	Joystick driver;
-	Joystick operator;
 	
-	DriveTrain driveTrain;
+	// Singleton instance of the driver
+	private Joystick driver;
+	// Singleton instance of the operator
+	private Joystick operator;
+	// Singleton instance of the drive train
+	private DriveTrain driveTrain;
+
 	
     public T_KajDrive() {
     	driver = OI.getInstance().getDriver();
@@ -32,13 +36,10 @@ public class T_KajDrive extends Command {
     
     
     // Called just before this Command runs the first time
-    double error;
-    double tAngle;
+
     protected void initialize() {
     	driveTrain.zeroYaw();
-    	error = driveTrain.getYaw();
     	driveTrain.resetEncoders();
-    	tAngle = driveTrain.getYaw();
     	
     }
 
@@ -47,18 +48,24 @@ public class T_KajDrive extends Command {
     double lastError;
     double intergral = 0;
     protected void execute() {
-    	double leftSpeed, rightSpeed, x, y;
+    	
+    	//Left and right speed that will be set to the motors
+    	double leftSpeed, rightSpeed;
+    	//The right x and left y values on the joystick
+    	double x, y;
  
-		
+		//Set the x and y variables to the joystick values
     	x = driver.getRawAxis(InputConstants.AXIS_RIGHT_X);
     	y = -driver.getRawAxis(InputConstants.AXIS_LEFT_Y);
+    	
     	x = x * x * x;  	
     	
+    	//Set right and left speed
     	leftSpeed = y + x;
     	rightSpeed = y - x;
 
     	
-    	
+    	//Set left and right speed to the motors
     	driveTrain.setLeft(leftSpeed);
     	driveTrain.setRight(rightSpeed);
     	

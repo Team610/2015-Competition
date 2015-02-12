@@ -9,14 +9,12 @@ import edu.wpi.first.wpilibj.command.Command;
  */
 public class T_ResetSensors extends Command {
 	
-	DriveTrain driveTrain;
+	private DriveTrain driveTrain;
 
     public T_ResetSensors() {
     	
     	driveTrain = DriveTrain.getInstance();
     	
-    	// Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
     }
 
     // Called just before this Command runs the first time
@@ -27,23 +25,21 @@ public class T_ResetSensors extends Command {
 
     // Called repeatedly when this Command is scheduled to run
     protected void execute() {
-    	
+    	//Reset encoders
     	driveTrain.resetEncoders();
+    	//Reset the gryo
     	driveTrain.zeroYaw();
     	
     }
 
-    // Make this return true when this Command no longer needs to run execute()
     protected boolean isFinished() {
         return isTimedOut();
     }
 
-    // Called once after isFinished returns true
+
     protected void end() {
     }
 
-    // Called when another command which requires one or more of the same
-    // subsystems is scheduled to run
     protected void interrupted() {
     }
 }
