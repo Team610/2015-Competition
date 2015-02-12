@@ -82,7 +82,8 @@ public class T_Elevator extends Command {
 		//D Pad controles
 		getPov = operator.getPOV();
 		double curPot = elevator.getPot();
-
+		
+		//When
 		if ((getPov == 0 || getPov == 45 || getPov == 315) && !upDIsPressed) {
 			if (elevatorPosition < 3) {
 				elevatorPosition++;
