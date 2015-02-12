@@ -1,11 +1,9 @@
 package org.usfirst.frc.team610.robot.commands;
 
-import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class A_PositionMove extends Command {
 	// The drivetrain reference.

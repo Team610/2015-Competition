@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class D_SensorReadings extends Command {
 
-	// The singleton instance of the DriveTrain
+	// The singleton  DriveTrain
 	DriveTrain driveTrain;
-	// Gets the pdp
+	// Power Distribution Panel, to get Current from the motors
 	PowerDistributionPanel pdp;
-	// The singleton instance of the Elevator
+	// The singleton  Elevator
 	Elevator elevator;
 
 	public D_SensorReadings() {

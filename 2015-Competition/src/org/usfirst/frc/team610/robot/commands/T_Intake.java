@@ -15,12 +15,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
  */
 public class T_Intake extends Command {
 
+	//Singleton instance of the OI
 	OI oi;
+	//Singleton instance of the Intake
 	Intake intake;
+	//Singleton instance of the driver;
 	Joystick driver;
+	//Optical Sensor on intake, to detect totes. 
 	DigitalInput optical;
     public T_Intake() {
-        // Use requires() here to declare subsystem dependencies
+        //Gets the singleton in
     	oi = OI.getInstance();
     	intake = Intake.getInstance();
     	driver = oi.getDriver();

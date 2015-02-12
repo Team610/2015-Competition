@@ -32,7 +32,7 @@ public class T_Elevator extends Command {
 	//Input from dpad on operator controller.
 	private int getPov = 0;
 	//Boolean for whether elevator is going to bin or tote set positions.
-	private boolean isContainerHeight = true;
+	private boolean isStackingContainer = true;
 	//Booleans for whether Dpad buttons are pressed
 	private boolean upDIsPressed = false;
 	private boolean downDIsPressed = false;
@@ -70,20 +70,21 @@ public class T_Elevator extends Command {
 		// b for bins
 		//When b pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_B)) {
-			isContainerHeight = true;
+			isStackingContainer = true;
 		}
 
 		// x for totes
 		//When x pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_X)) {
-			isContainerHeight = false;
+			isStackingContainer = false;
 		}
 
-		//D Pad controles
+		//D Pad input from driver
 		getPov = operator.getPOV();
+		//Gets current pot value from the Elevator
 		double curPot = elevator.getPot();
 		
-		//When
+		//If Dpad is in any of the upwards 3 position, increment the Elevator Position.
 		if ((getPov == 0 || getPov == 45 || getPov == 315) && !upDIsPressed) {
 			if (elevatorPosition < 3) {
 				elevatorPosition++;
@@ -91,6 +92,7 @@ public class T_Elevator extends Command {
 			}
 			upDIsPressed = true;
 
+			//Same as before, but decrements the Elevator Position when dpad is one of the downwards 3 positions
 		} else if ((getPov == 180 || getPov == 215 || getPov == 135)
 				&& !downDIsPressed) {
 			if (elevatorPosition > 0) {
@@ -101,6 +103,7 @@ public class T_Elevator extends Command {
 
 		}
 
+		//When the Dpad is not pressed, set the booleans for isPressed to both false. 
 		if (getPov == -1) {
 			upDIsPressed = false;
 			downDIsPressed = false;
@@ -158,7 +161,8 @@ public class T_Elevator extends Command {
 				break;
 			}
 		}
-		if (isContainerHeight) {
+		//If we are stacking containers
+		if (isStackingContainer) {
 			switch (elevatorPosition) {
 
 			case 0:
