@@ -31,6 +31,8 @@ public class D_SensorReadings extends Command {
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.out.println("D_SensorReadings");
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -47,8 +49,9 @@ public class D_SensorReadings extends Command {
 				driveTrain.getRightDistance());
 		SmartDashboard.putNumber("Left Distance", driveTrain.getLeftDistance());
 		SmartDashboard.putNumber("Gyro", driveTrain.getYaw());
-		// System.out.println(pdp.getCurrent(2));
 		SmartDashboard.putNumber("Current Draw of Elevator", pdp.getCurrent(2));
+		SmartDashboard.putNumber("Elevator Pot", elevator.getPot());
+
 
 	}
 

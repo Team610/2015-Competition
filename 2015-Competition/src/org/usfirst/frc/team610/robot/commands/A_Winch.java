@@ -27,6 +27,8 @@ public class A_Winch extends Command {
 
     // Called just before this Command runs the first time
     protected void initialize() {
+		System.out.println("A_Winch");
+
     	//Reset the Encoder on the Winch
     	bumper.resetWinchEncoder();
     }
@@ -37,7 +39,7 @@ public class A_Winch extends Command {
     	//in
     	if(bumper.getWinchEncoder() <= distance){
     		//Sets the winch motor
-    		bumper.setWinch(distance);
+    		bumper.setWinchEncoder(distance);
     		//Keeps the command running
     		isFinished = false;
     	} else {

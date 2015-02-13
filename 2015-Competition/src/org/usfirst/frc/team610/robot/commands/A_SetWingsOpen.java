@@ -23,6 +23,8 @@ public class A_SetWingsOpen extends Command {
 	}
 
 	protected void initialize() {
+		System.out.println("A_SetWingsOpen");
+
 	}
 
 	protected void execute() {

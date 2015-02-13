@@ -1,8 +1,9 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
-import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
+import org.usfirst.frc.team610.robot.constants.ElevatorConstants;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Joystick;
@@ -25,14 +26,15 @@ public class T_Elevator extends Command {
 	// For I correction.
 	private double iCounter;
 	// Positions for tote and bin stacking.
-	private double oneTote, twoTotes, threeTotes, fourTotes;
-	private double oneBin, twoBins, threeBins, fourBins;
+	private double totePickup, toteCarrying, oneTote, twoTotes, threeTotes, fourTotes,
+			fiveTotes;
+	private double binPickup, binCarrying, oneBin, twoBins, threeBins, fourBins, fiveBins;
 	// The target height.
 	private double targetSetpoint = 0.7;
 	// Input from dpad on operator controller.
 	private int getPov = 0;
 	// Boolean for whether elevator is going to bin or tote set positions.
-	private boolean isStackingContainer = true;
+	private boolean isStackingBin = true;
 	// Booleans for whether Dpad buttons are pressed
 	private boolean upDIsPressed = false;
 	private boolean downDIsPressed = false;
@@ -48,19 +50,29 @@ public class T_Elevator extends Command {
 		// Set to singleton instance of the elevator.
 		elevator = Elevator.getInstance();
 		// Set values to predetermined heights.
-		twoTotes = ElectricalConstants.ELEVATOR_TWOTOTES;
-		threeTotes = ElectricalConstants.ELEVATOR_THREETOTES;
-		oneTote = ElectricalConstants.ELEVATOR_BOTTOM;
-		fourTotes = ElectricalConstants.ELEVATOR_FOURTOTES;
-		oneBin = ElectricalConstants.ELEVATOR_ONEBINS;
-		twoBins = ElectricalConstants.ELEVATOR_TWOBINS;
-		threeBins = ElectricalConstants.ELEVATOR_THREEBINS;
-		fourBins = ElectricalConstants.ELEVATOR_FOURBINS;
+
+		totePickup = ElevatorConstants.ELEVATOR_TOTEPICKUP;
+		toteCarrying = ElevatorConstants.ELEVATOR_TOTECARRYING;
+		oneTote = ElevatorConstants.ELEVATOR_ONETOTES;
+		twoTotes = ElevatorConstants.ELEVATOR_TWOTOTES;
+		threeTotes = ElevatorConstants.ELEVATOR_THREETOTES;
+		fourTotes = ElevatorConstants.ELEVATOR_FOURTOTES;
+		fiveTotes = ElevatorConstants.ELEVATOR_FIVETOTES;
+
+		binPickup = ElevatorConstants.ELEVATOR_BINPICKUP;
+		binCarrying = ElevatorConstants.ELEVATOR_BINCARRYING;
+		oneBin = ElevatorConstants.ELEVATOR_ONEBINS;
+		twoBins = ElevatorConstants.ELEVATOR_TWOBINS;
+		threeBins = ElevatorConstants.ELEVATOR_THREEBINS;
+		fourBins = ElevatorConstants.ELEVATOR_FOURBINS;
+		fiveBins = ElevatorConstants.ELEVATOR_FIVEBINS;
 
 	}
 
 	// Called just before this Command runs the first time
 	protected void initialize() {
+		System.out.println("T_Elevator");
+
 	}
 
 	// Called repeatedly when this Command is scheduled to run
@@ -69,13 +81,13 @@ public class T_Elevator extends Command {
 		// b for bins
 		// When b pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_B)) {
-			isStackingContainer = true;
+			isStackingBin = true;
 		}
 
 		// x for totes
-		// When x pressed, set heights to container heights.
+		// When x pressed, set heights to tote heights.
 		if (operator.getRawButton(InputConstants.BTN_X)) {
-			isStackingContainer = false;
+			isStackingBin = false;
 		}
 
 		// D Pad input from driver
@@ -86,15 +98,16 @@ public class T_Elevator extends Command {
 		// If Dpad is in any of the upwards 3 position, increment the Elevator
 		// Position.
 		if ((getPov == 0 || getPov == 45 || getPov == 315) && !upDIsPressed) {
-			if (elevatorPosition < 3) {
+			if (elevatorPosition < 6) {
 				elevatorPosition++;
 				iCounter = 0;
 			}
 			upDIsPressed = true;
 
-			// Same as before, but decrements the Elevator Position when dpad is
-			// one of the downwards 3 positions
-		} else if ((getPov == 180 || getPov == 215 || getPov == 135)
+		}
+		// Same as before, but decrements the Elevator Position when dpad is
+		// one of the downwards 3 positions
+		else if ((getPov == 180 || getPov == 215 || getPov == 135)
 				&& !downDIsPressed) {
 			if (elevatorPosition > 0) {
 				elevatorPosition--;
@@ -134,96 +147,201 @@ public class T_Elevator extends Command {
 		// Trimming
 		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y) * 0.005;
 		if (Math.abs(trim) > 0.05 * 0.005) {
+			if (isStackingBin) {
+				switch (elevatorPosition) {
+				case 0:
+					if ((binPickup + trim > ElevatorConstants.ELEVATOR_TOP && binPickup
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						binPickup += trim;
+					}
+					break;
+				case 1:
+					if ((binCarrying + trim > ElevatorConstants.ELEVATOR_TOP && binCarrying
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						binCarrying += trim;
+					}
+					break;
+				case 2:
+					if ((oneBin + trim > ElevatorConstants.ELEVATOR_TOP && oneBin
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						oneBin += trim;
+					}
+					break;
+				case 3:
+					if ((twoBins + trim > ElevatorConstants.ELEVATOR_TOP && twoBins
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						twoBins += trim;
+					}
+					break;
+				case 4:
+					if ((threeBins + trim > ElevatorConstants.ELEVATOR_TOP && threeBins
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						threeBins += trim;
+					}
+					break;
+				case 5:
+					if ((fourBins + trim > ElevatorConstants.ELEVATOR_TOP && fourBins
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						fourBins += trim;
+					}
+					break;
+				case 6:
 
-			switch (elevatorPosition) {
+					if ((fiveBins + trim > ElevatorConstants.ELEVATOR_TOP && fiveBins
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						fiveBins += trim;
+					}
+					break;
+				}
+			} else {
 
-			case 0:
-				if ((oneTote + trim > ElectricalConstants.ELEVATOR_TOP && oneTote
-						+ trim < ElectricalConstants.ELEVATOR_BOTTOM)) {
-					oneTote += trim;
+				switch (elevatorPosition) {
+
+				case 0:
+					if ((totePickup + trim > ElevatorConstants.ELEVATOR_TOP && totePickup
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						totePickup += trim;
+					}
+					break;
+				case 1:
+					if ((toteCarrying + trim > ElevatorConstants.ELEVATOR_TOP && toteCarrying
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						toteCarrying += trim;
+					}
+					break;
+				case 2:
+					if ((oneTote + trim > ElevatorConstants.ELEVATOR_TOP && oneTote
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						oneTote += trim;
+					}
+					break;
+				case 3:
+					if ((twoTotes + trim > ElevatorConstants.ELEVATOR_TOP && twoTotes
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						twoTotes += trim;
+					}
+					break;
+				case 4:
+					if ((threeTotes + trim > ElevatorConstants.ELEVATOR_TOP && threeTotes
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						threeTotes += trim;
+					}
+					break;
+				case 5:
+					if ((fourTotes + trim > ElevatorConstants.ELEVATOR_TOP && fourTotes
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						fourTotes += trim;
+					}
+					break;
+				case 6:
+
+					if ((fiveTotes + trim > ElevatorConstants.ELEVATOR_TOP && fiveTotes
+							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
+						fiveTotes += trim;
+					}
+					break;
 				}
-				break;
-			case 1:
-				if ((twoTotes + trim > ElectricalConstants.ELEVATOR_TOP && twoTotes
-						+ trim < ElectricalConstants.ELEVATOR_BOTTOM)) {
-					twoTotes += trim;
-				}
-				break;
-			case 2:
-				if ((threeTotes + trim > ElectricalConstants.ELEVATOR_TOP && threeTotes
-						+ trim < ElectricalConstants.ELEVATOR_BOTTOM)) {
-					threeTotes += trim;
-				}
-				break;
-			case 3:
-				if ((fourTotes + trim > ElectricalConstants.ELEVATOR_TOP && fourTotes
-						+ trim < ElectricalConstants.ELEVATOR_BOTTOM)) {
-					fourTotes += trim;
-				}
-				break;
 			}
 		}
 		// If we are stacking containers
-		if (isStackingContainer) {
+		if (isStackingBin) {
 			switch (elevatorPosition) {
-
 			case 0:
-				targetSetpoint = oneTote;
+				targetSetpoint = binPickup;
 
 				break;
 			case 1:
-				targetSetpoint = twoTotes;
+				targetSetpoint = binCarrying;
+
 				break;
 			case 2:
-				targetSetpoint = threeTotes;
+				targetSetpoint = oneBin;
+
 				break;
 			case 3:
-				targetSetpoint = fourTotes;
+				targetSetpoint = twoBins;
+				break;
+			case 4:
+				targetSetpoint = threeBins;
+				break;
+			case 5:
+				targetSetpoint = fourBins;
+				break;
+			case 6:
+				targetSetpoint = fiveBins;
 				break;
 
 			}
-			//If isStacking is false, then we are stacking totes. 
+			// If isStacking is false, then we are stacking totes.
 		} else {
 			switch (elevatorPosition) {
 
 			case 0:
-				targetSetpoint = oneBin;
+				targetSetpoint = totePickup;
 
 				break;
 			case 1:
-				targetSetpoint = twoBins;
+				targetSetpoint = toteCarrying;
+
 				break;
 			case 2:
-				targetSetpoint = threeBins;
+				targetSetpoint = oneTote;
+
 				break;
 			case 3:
-				targetSetpoint = fourBins;
+				targetSetpoint = twoTotes;
+				break;
+			case 4:
+				targetSetpoint = threeTotes;
+				break;
+			case 5:
+				targetSetpoint = fourTotes;
+				break;
+			case 6:
+				targetSetpoint = fiveTotes;
 				break;
 			}
 		}
 
 		// TOTE POSITION STOP \\
-		SmartDashboard.putNumber("TotePos:", oneTote);
-		SmartDashboard.putNumber("LowPos:", twoTotes);
-		SmartDashboard.putNumber("MidPos:", threeTotes);
-		SmartDashboard.putNumber("TopPos:", fourTotes);
+		SmartDashboard.putBoolean("Bin Mode:", isStackingBin);
+		SmartDashboard.putNumber("Position", elevatorPosition);
+		
+		SmartDashboard.putNumber("binPickup:", binPickup);
+		SmartDashboard.putNumber("binCarrying:", binCarrying);
+		SmartDashboard.putNumber("oneBin:", oneBin);
+		SmartDashboard.putNumber("twoBins:", twoBins);
+		SmartDashboard.putNumber("threeBins:", threeBins);
+		SmartDashboard.putNumber("fourBins:", fourBins);
+		SmartDashboard.putNumber("fiveBins:", fiveBins);
+		
+		SmartDashboard.putNumber("totePickup:", totePickup);
+		SmartDashboard.putNumber("toteCarrying:", toteCarrying);
+		SmartDashboard.putNumber("oneTote:", oneTote);
+		SmartDashboard.putNumber("twoTotes:", twoTotes);
+		SmartDashboard.putNumber("threeTotes:", threeTotes);
+		SmartDashboard.putNumber("fourTotes:", fourTotes);
+		SmartDashboard.putNumber("fiveTotes:", fiveTotes);
+		
+		
 
-		//Error for P
+		
+
+		// Error for P
 		double error = 0;
 
 		// Pot Cap
 
 		// Calculate error
 		error = curPot - targetSetpoint;
-		if (error > 0 && iCounter < 1.0 / ElectricalConstants.ELEVATOR_I) {
+		if (error > 0 && iCounter < 1.0 / PIDConstants.ELEVATOR_I) {
 			// Prevent windup
 			if (error > 0.1) {
 				iCounter = 0;
 			} else {
 				iCounter += error;
 			}
-		} else if (error < -0.003
-				&& iCounter > -1.0 / ElectricalConstants.ELEVATOR_I) {
+		} else if (error < -0.003 && iCounter > -1.0 / PIDConstants.ELEVATOR_I) {
 			// Prevent windup
 			if (error < -0.1) {
 				iCounter = 0;
@@ -233,23 +351,25 @@ public class T_Elevator extends Command {
 		}
 
 		// Set the motor using PID
-		double setMotorValue = ElectricalConstants.ELEVATOR_P * error + iCounter
-				* ElectricalConstants.ELEVATOR_I;
-		//UNTESTED HARDSTOP LIMIT
-		if(Math.abs(ElectricalConstants.ElEVATOR_MID - curPot)  < 0.10){
-			//Ian make it fancy
-			if (setMotorValue > 1){
+		double setMotorValue = PIDConstants.ELEVATOR_P * error + iCounter
+				* PIDConstants.ELEVATOR_I;
+		// Ian make it fancy
+		if (setMotorValue > 1) {
 			setMotorValue = 1;
-			}
-			elevator.setMotor(setMotorValue*0.3);
-		}else{
-		elevator.setMotor(setMotorValue);
 		}
-		SmartDashboard.putNumber("Elevator Position", elevatorPosition);
+		// UNTESTED HARDSTOP LIMIT
+		// Slow down the elevator when we're near the point where the stages
+		// change.
+		if (Math.abs(ElevatorConstants.ElEVATOR_MID - curPot) < 0.02) {
+			if (setMotorValue > 0) {
+				setMotorValue = Math.min(setMotorValue, 0.5);
 
-		// SmartDashboard.putNumber("Last Elevator Position",
-		// lastElevatorPosition);
-		// lastElevatorPosition = elevatorPosition;
+			} else {
+				setMotorValue = Math.max(setMotorValue, -0.5);
+
+			}
+		}
+		elevator.setMotor(setMotorValue);
 
 	}
 

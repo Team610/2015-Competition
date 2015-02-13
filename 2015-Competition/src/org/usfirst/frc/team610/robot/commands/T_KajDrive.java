@@ -38,6 +38,8 @@ public class T_KajDrive extends Command {
     // Called just before this Command runs the first time
 
     protected void initialize() {
+		System.out.println("T_KajDrive");
+
     	driveTrain.zeroYaw();
     	driveTrain.resetEncoders();
     	
@@ -58,7 +60,6 @@ public class T_KajDrive extends Command {
     	x = driver.getRawAxis(InputConstants.AXIS_RIGHT_X);
     	y = -driver.getRawAxis(InputConstants.AXIS_LEFT_Y);
     	
-    	x = x * x * x;  	
     	
     	//Set right and left speed
     	leftSpeed = y + x;

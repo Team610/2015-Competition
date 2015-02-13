@@ -27,6 +27,9 @@ public class Robot extends IterativeRobot {
         readings = new D_SensorReadings();
         //Start pushing values to the SD.
         readings.start();
+        auto = new A_PositionMove(-51,0.5);
+        teleop = new T_TeleopGroup();
+
     }
 	
 	public void disabledPeriodic() {
@@ -39,6 +42,9 @@ public class Robot extends IterativeRobot {
         auto = new A_PositionMove(-51,0.5);
     	auto.start();
     	teleop.cancel();
+    	//Start pushing sensor readings to the SD.
+        readings.start();
+
     }
 
     public void autonomousPeriodic() {
@@ -50,14 +56,17 @@ public class Robot extends IterativeRobot {
 		//Cancel the autonomous in case it didn't end in time.
         auto.cancel();
         //Create the teleop command and start it.
-        teleop = new T_TeleopGroup();
+//        teleop = new T_TeleopGroup();
         teleop.start();
         //Reset the drivetrain encoders
         DriveTrain.getInstance().resetEncoders();
+      //Start pushing sensor readings to the SD.
+        readings.start();
     }
 
     public void disabledInit(){
-
+    	//Start pushing sensor readings to the SD.
+        readings.start();
     }
 
     public void teleopPeriodic() {

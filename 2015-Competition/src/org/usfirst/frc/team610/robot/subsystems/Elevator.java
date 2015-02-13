@@ -48,16 +48,6 @@ public class Elevator extends Subsystem {
     public double getPot(){
     	return pot.get();
     }
-    public void resetPot(){
-    }
-    public void setUpPos(){
-    	
-    }
-    public void setMidPos(){
-    	
-    }
-    public void setLowPos(){
-    	
-    }
+    
 
 }

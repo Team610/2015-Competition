@@ -21,56 +21,58 @@ public class T_Intake extends Command {
 	private Intake intake;
 	// Singleton instance of the driver;
 	private Joystick driver;
-	// Optical Sensor on intake, to detect totes.
-	private DigitalInput optical;
+
 
 	public T_Intake() {
 		// Singleton Instance of 
 		oi = OI.getInstance();
 		intake = Intake.getInstance();
 		driver = oi.getDriver();
-		optical = new DigitalInput(ElectricalConstants.OPTICALSENSOR_PORT);
 
 	}
 
 	protected void initialize() {
+		System.out.println("T_Intake");
+
 	}
 
 	protected void execute() {
 		boolean isDetected = false;
-		SmartDashboard.putBoolean("Optical Sensor", optical.get());
+		SmartDashboard.putBoolean("Optical Sensor", intake.getOptical());
 		// System.out.println(optical.get());
 
 		if (driver.getRawButton(InputConstants.BTN_L2)) {
 			// Negative
 			intake.setIntakeSpeed(-1);
 
-		} else if (driver.getRawButton(InputConstants.BTN_R2)) {
-			// Positive Intaking
+		} 
+		else if (driver.getRawButton(InputConstants.BTN_R1)) {
+
 			intake.setIntakeSpeed(1);
-			if (!optical.get() && !isDetected) {
-				isDetected = true;
+		}
+		else if (driver.getRawButton(InputConstants.BTN_R2)) {
+			//Close intake if the sensor detects an object.
+
+			if (!intake.getOptical()) {
+				intake.setIntakeOpen(false);
+				intake.setIntakeSpeed(0);
+				isDetected = false;
+			} else {
+				// Positive Intaking
+
+				intake.setIntakeSpeed(1);
 			}
 		} else {
 			intake.setIntakeSpeed(0);
 		}
 
-		//Close intake if the sensor detects an object.
-		if (isDetected) {
-			intake.setIntakeOpen(false);
-			intake.setIntakeSpeed(0);
-			isDetected = false;
-		}
 		
 		//Set intake pistons with buttons.
 		if (driver.getRawButton(InputConstants.BTN_L1)) {
 			intake.setIntakeOpen(true);
 
 		}
-		if (driver.getRawButton(InputConstants.BTN_R1)) {
-
-			intake.setIntakeOpen(false);
-		}
+		
 	}
 
 	protected boolean isFinished() {

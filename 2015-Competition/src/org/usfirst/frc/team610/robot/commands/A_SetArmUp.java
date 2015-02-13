@@ -25,6 +25,8 @@ public class A_SetArmUp extends Command {
 
 	//Unused
 	protected void initialize() {
+		System.out.println("A_SetArmUp");
+
 	}
 
 	protected void execute() {

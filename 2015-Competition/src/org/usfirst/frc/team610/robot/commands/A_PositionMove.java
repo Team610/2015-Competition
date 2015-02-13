@@ -42,6 +42,7 @@ public class A_PositionMove extends Command {
 	}
 
 	protected void initialize() {
+		System.out.println("A_PositionMove");
 		//Reset the drivetrain encoders.
 		driveTrain.resetEncoders();
 		//Save the target angle as the current angle.

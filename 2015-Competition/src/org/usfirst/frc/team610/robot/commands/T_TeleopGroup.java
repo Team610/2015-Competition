@@ -11,5 +11,6 @@ public class T_TeleopGroup extends CommandGroup {
         addParallel(new T_Elevator());
         addParallel(new T_Intake());
         addParallel(new T_KajDrive());
+        addParallel(new T_Bumper());
     }
 }
