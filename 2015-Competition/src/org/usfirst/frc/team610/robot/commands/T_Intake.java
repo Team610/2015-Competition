@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj.Timer;
 
 /**
  *
@@ -22,9 +23,10 @@ public class T_Intake extends Command {
 	// Singleton instance of the driver;
 	private Joystick driver;
 
+	Timer timer = new Timer();
 
 	public T_Intake() {
-		// Singleton Instance of 
+		// Singleton Instance of
 		oi = OI.getInstance();
 		intake = Intake.getInstance();
 		driver = oi.getDriver();
@@ -37,6 +39,7 @@ public class T_Intake extends Command {
 	}
 
 	protected void execute() {
+
 		boolean isDetected = false;
 		SmartDashboard.putBoolean("Optical Sensor", intake.getOptical());
 		// System.out.println(optical.get());
@@ -45,17 +48,25 @@ public class T_Intake extends Command {
 			// Negative
 			intake.setIntakeSpeed(-1);
 
-		} 
-		else if (driver.getRawButton(InputConstants.BTN_R1)) {
+		} else if (driver.getRawButton(InputConstants.BTN_R1)) {
 
 			intake.setIntakeSpeed(1);
-		}
-		else if (driver.getRawButton(InputConstants.BTN_R2)) {
-			//Close intake if the sensor detects an object.
+		} else if (driver.getRawButton(InputConstants.BTN_R2)) {
+			// Close intake if the sensor detects an object.
 
 			if (!intake.getOptical()) {
+
+				if (timer.get() == 0) {
+
+					timer.start();
+
+				}
+
 				intake.setIntakeOpen(false);
-				intake.setIntakeSpeed(0);
+
+				if (timer.get() == 0.5) {
+					intake.setIntakeSpeed(0);
+				}
 				isDetected = false;
 			} else {
 				// Positive Intaking
@@ -66,13 +77,12 @@ public class T_Intake extends Command {
 			intake.setIntakeSpeed(0);
 		}
 
-		
-		//Set intake pistons with buttons.
+		// Set intake pistons with buttons.
 		if (driver.getRawButton(InputConstants.BTN_L1)) {
 			intake.setIntakeOpen(true);
 
 		}
-		
+
 	}
 
 	protected boolean isFinished() {
@@ -81,7 +91,6 @@ public class T_Intake extends Command {
 
 	protected void end() {
 	}
-
 
 	protected void interrupted() {
 	}

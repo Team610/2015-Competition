@@ -1,5 +1,7 @@
 package org.usfirst.frc.team610.robot.commands;
 
+import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
+import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 import org.usfirst.frc.team610.robot.subsystems.Elevator;
 
@@ -50,8 +52,9 @@ public class D_SensorReadings extends Command {
 		SmartDashboard.putNumber("Left Distance", driveTrain.getLeftDistance());
 		SmartDashboard.putNumber("Gyro", driveTrain.getYaw());
 		SmartDashboard.putNumber("Current Draw of Elevator", pdp.getCurrent(2));
+		SmartDashboard.putNumber("Current Draw of Winch", pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL));
 		SmartDashboard.putNumber("Elevator Pot", elevator.getPot());
-
+		SmartDashboard.putBoolean("Arm is out", Bumper.armsIsOut);
 
 	}
 

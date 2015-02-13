@@ -24,6 +24,8 @@ public class Bumper extends Subsystem {
 	// PDP in order to check the current to the winch, to prevent the motor from
 	// stalling
 	PowerDistributionPanel pdp;
+	
+	public static boolean armsIsOut = true;
 
 	// Singleton instance of the Bumper
 	static Bumper instance;
@@ -60,8 +62,10 @@ public class Bumper extends Subsystem {
 	public void setArmsUp(boolean position) {
 		if (!position) {
 			arm.set(DoubleSolenoid.Value.kForward);
+			armsIsOut = true;
 		} else {
 			arm.set(DoubleSolenoid.Value.kReverse);
+			armsIsOut = false;
 		}
 	}
 

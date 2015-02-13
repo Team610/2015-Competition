@@ -93,15 +93,15 @@ public class T_Elevator extends Command {
 		// b for bins
 		// When b pressed, set heights to container heights.
 		if (operator.getRawButton(InputConstants.BTN_B)) {
-			stackingType = 0;
+			stackingType = ElevatorConstants.carryingBinUp;
 		}
 		if (operator.getRawButton(InputConstants.BTN_A)) {
-			stackingType = 1;
+			stackingType = ElevatorConstants.carryingBinDown;
 		}
 		// x for totes
 		// When x pressed, set heights to tote heights.
 		if (operator.getRawButton(InputConstants.BTN_X)) {
-			stackingType = 2;
+			stackingType = ElevatorConstants.carryingTote;
 		}
 
 		// D Pad input from driver
@@ -159,10 +159,11 @@ public class T_Elevator extends Command {
 		// }
 
 		// Trimming
-		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y) * 0.005;
-		if (Math.abs(trim) > 0.05 * 0.005) {
+		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y);
+		trim = Math.pow(trim, 3) * 0.005;
+		if (trim > Math.pow(0.05 * 0.005,3)) {
 			switch (stackingType) {
-			case 0:
+			case ElevatorConstants.carryingBinUp:
 				switch (elevatorPosition) {
 				case 0:
 					if ((binPickup + trim > ElevatorConstants.ELEVATOR_TOP && binPickup
@@ -209,7 +210,7 @@ public class T_Elevator extends Command {
 					break;
 				}
 				break;
-			case 1:
+			case ElevatorConstants.carryingTote:
 
 				switch (elevatorPosition) {
 
@@ -258,7 +259,7 @@ public class T_Elevator extends Command {
 					break;
 				}
 				break;
-			case 2:
+			case ElevatorConstants.carryingBinDown:
 				switch (elevatorPosition) {
 				case 0:
 					if ((binPickup + trim > ElevatorConstants.ELEVATOR_TOP && binPickup
@@ -308,9 +309,17 @@ public class T_Elevator extends Command {
 
 			}
 		}
+		
+		if(operator.getRawButton(InputConstants.BTN_L1)){
+			elevatorPosition = 1;
+		}
+		if(operator.getRawButton(InputConstants.BTN_L2)){
+			elevatorPosition = 0;
+		}
+		
 		// If we are stacking containers
 		switch (stackingType) {
-		case 0:
+		case ElevatorConstants.carryingBinUp:
 			switch (elevatorPosition) {
 			case 0:
 				targetSetpoint = binPickup;
@@ -340,7 +349,7 @@ public class T_Elevator extends Command {
 			break;
 
 		// If isStacking is false, then we are stacking totes.
-		case 1:
+		case ElevatorConstants.carryingTote:
 			switch (elevatorPosition) {
 
 			case 0:
@@ -370,7 +379,7 @@ public class T_Elevator extends Command {
 			}
 			break;
 		// bin down
-		case 2:
+		case ElevatorConstants.carryingBinDown:
 			switch (elevatorPosition) {
 
 			case 0:
@@ -404,13 +413,13 @@ public class T_Elevator extends Command {
 		// To display to Dashboard what is being carried 
 		String stackingMode = "";
 		switch(stackingType){
-		case 0:
+		case ElevatorConstants.carryingBinUp:
 			stackingMode = "Bin Standing Up";
 			break;
-		case 1:
+		case ElevatorConstants.carryingBinDown:
 			stackingMode = "Bin Lying Down";
 			break;
-		case 2:
+		case ElevatorConstants.carryingTote:
 			stackingMode = "Totes";
 		}
 		
@@ -482,7 +491,8 @@ public class T_Elevator extends Command {
 
 			}
 		}
-		elevator.setMotor(setMotorValue);
+		//elevator.setMotor(setMotorValue);
+		elevator.setMotor(0);
 
 	}
 

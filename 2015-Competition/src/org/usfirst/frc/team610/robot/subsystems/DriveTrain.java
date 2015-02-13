@@ -80,7 +80,7 @@ public class DriveTrain extends Subsystem {
 
 	// Gyro
 	public double getYaw() {
-		return imu.getYaw();
+		return -1 * imu.getYaw();
 	}
 
 	// Zero Gyro

@@ -1,6 +1,7 @@
 
 package org.usfirst.frc.team610.robot;
 
+import org.usfirst.frc.team610.robot.commands.A_ForwardBack;
 import org.usfirst.frc.team610.robot.commands.A_PositionMove;
 import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
@@ -18,7 +19,7 @@ public class Robot extends IterativeRobot {
 	//Readings pushes values to the SD.
     private Command readings;
     //Commands to run at the beginning of teleop and auto.
-    private Command auto;
+    private CommandGroup auto;
     private CommandGroup teleop;
     
     public void robotInit() {
@@ -27,7 +28,7 @@ public class Robot extends IterativeRobot {
         readings = new D_SensorReadings();
         //Start pushing values to the SD.
         readings.start();
-        auto = new A_PositionMove(-51,0.5);
+        auto = new A_ForwardBack();
         teleop = new T_TeleopGroup();
 
     }
@@ -39,7 +40,8 @@ public class Robot extends IterativeRobot {
 
     public void autonomousInit() {
         // Start autonomous and cancel teleop.
-        auto = new A_PositionMove(-51,0.5);
+        auto = new A_ForwardBack();
+        
     	auto.start();
     	teleop.cancel();
     	//Start pushing sensor readings to the SD.
