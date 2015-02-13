@@ -74,8 +74,8 @@ public class DriveTrain extends Subsystem {
 
 	// Set right speed
 	public void setRight(double speed) {
-		rightFront.set(-speed);
-		rightBack.set(-speed);
+		rightFront.set(speed);
+		rightBack.set(speed);
 	}
 
 	// Gyro
