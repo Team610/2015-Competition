@@ -4,11 +4,11 @@ public class ElevatorConstants {
 
 
 	// Elevator presets
-	public static final double ELEVATOR_BOTTOM = 0.85; // real bottom 0.89
+	public static final double ELEVATOR_BOTTOM = 0.84; // real bottom 0.89
 														// //Middle .60
-	public static final double ELEVATOR_BINPICKUP = 0.85; // real bottom 0.89
+	public static final double ELEVATOR_BINPICKUP = 0.84; // real bottom 0.89
 
-	public static final double ELEVATOR_TOTEPICKUP = 0.85;
+	public static final double ELEVATOR_TOTEPICKUP = 0.84;
 	public static final double ELEVATOR_TOTECARRYING = 0.796;
 	public static final double ELEVATOR_BINCARRYING = 0.796;
 

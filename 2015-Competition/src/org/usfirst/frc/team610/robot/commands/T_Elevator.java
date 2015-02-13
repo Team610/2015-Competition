@@ -26,18 +26,20 @@ public class T_Elevator extends Command {
 	// For I correction.
 	private double iCounter;
 	// Positions for tote and bin stacking.
-	private double totePickup, toteCarrying, oneTote, twoTotes, threeTotes, fourTotes,
-			fiveTotes;
-	private double binPickup, binCarrying, oneBin, twoBins, threeBins, fourBins, fiveBins;
+	private double totePickup, toteCarrying, oneTote, twoTotes, threeTotes,
+			fourTotes, fiveTotes;
+	private double binPickup, binCarrying, oneBin, twoBins, threeBins,
+			fourBins, fiveBins;
 	// The target height.
-	private double oneBinDown, twoBinsDown, threeBinsDown, fourBinsDown, fiveBinsDown;
+	private double oneBinDown, twoBinsDown, threeBinsDown, fourBinsDown,
+			fiveBinsDown;
 	private double targetSetpoint = 0.7;
 	// Input from dpad on operator controller.
 	private int getPov = 0;
 	// Boolean for whether elevator is going to bin or tote set positions.
-	//private boolean isStackingBin = true;
-	//private boolean isStackingBinDown = false;
-	//0 is bin standing up, 1 is bins lying down, 2 is totes
+	// private boolean isStackingBin = true;
+	// private boolean isStackingBinDown = false;
+	// 0 is bin standing up, 1 is bins lying down, 2 is totes
 	int stackingType = 0;
 	// Booleans for whether Dpad buttons are pressed
 	private boolean upDIsPressed = false;
@@ -70,7 +72,7 @@ public class T_Elevator extends Command {
 		threeBins = ElevatorConstants.ELEVATOR_THREEBINS;
 		fourBins = ElevatorConstants.ELEVATOR_FOURBINS;
 		fiveBins = ElevatorConstants.ELEVATOR_FIVEBINS;
-		
+
 		oneBinDown = ElevatorConstants.ELEVATOR_ONEBINS_DOWN;
 		twoBinsDown = ElevatorConstants.ELEVATOR_TWOBINS_DOWN;
 		threeBinsDown = ElevatorConstants.ELEVATOR_THREEBINS_DOWN;
@@ -93,7 +95,7 @@ public class T_Elevator extends Command {
 		if (operator.getRawButton(InputConstants.BTN_B)) {
 			stackingType = 0;
 		}
-		if(operator.getRawButton(InputConstants.BTN_A)){
+		if (operator.getRawButton(InputConstants.BTN_A)) {
 			stackingType = 1;
 		}
 		// x for totes
@@ -159,7 +161,7 @@ public class T_Elevator extends Command {
 		// Trimming
 		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y) * 0.005;
 		if (Math.abs(trim) > 0.05 * 0.005) {
-			switch(stackingType){
+			switch (stackingType) {
 			case 0:
 				switch (elevatorPosition) {
 				case 0:
@@ -303,11 +305,11 @@ public class T_Elevator extends Command {
 					break;
 				}
 				break;
-				
+
 			}
 		}
 		// If we are stacking containers
-		switch(stackingType) {
+		switch (stackingType) {
 		case 0:
 			switch (elevatorPosition) {
 			case 0:
@@ -334,11 +336,11 @@ public class T_Elevator extends Command {
 			case 6:
 				targetSetpoint = fiveBins;
 				break;
-			}	
+			}
 			break;
-			
-			// If isStacking is false, then we are stacking totes.
-			case 1:
+
+		// If isStacking is false, then we are stacking totes.
+		case 1:
 			switch (elevatorPosition) {
 
 			case 0:
@@ -367,42 +369,55 @@ public class T_Elevator extends Command {
 				break;
 			}
 			break;
-			//bin down
-			case 2:
-				switch (elevatorPosition) {
+		// bin down
+		case 2:
+			switch (elevatorPosition) {
 
-				case 0:
-					targetSetpoint = binPickup;
+			case 0:
+				targetSetpoint = binPickup;
 
-					break;
-				case 1:
-					targetSetpoint = binCarrying;
-
-					break;
-				case 2:
-					targetSetpoint = oneBinDown;
-
-					break;
-				case 3:
-					targetSetpoint = twoBinsDown;
-					break;
-				case 4:
-					targetSetpoint = threeBinsDown;
-					break;
-				case 5:
-					targetSetpoint = fourBinsDown;
-					break;
-				case 6:
-					targetSetpoint = fiveBinsDown;
-					break;
-				}
 				break;
-		}
+			case 1:
+				targetSetpoint = binCarrying;
 
-		// TOTE POSITION STOP \\
-		SmartDashboard.putNumber("Bin Mode:", stackingType);
-		SmartDashboard.putNumber("Position", elevatorPosition);
+				break;
+			case 2:
+				targetSetpoint = oneBinDown;
+
+				break;
+			case 3:
+				targetSetpoint = twoBinsDown;
+				break;
+			case 4:
+				targetSetpoint = threeBinsDown;
+				break;
+			case 5:
+				targetSetpoint = fourBinsDown;
+				break;
+			case 6:
+				targetSetpoint = fiveBinsDown;
+				break;
+			}
+			break;
+		}
 		
+		// To display to Dashboard what is being carried 
+		String stackingMode = "";
+		switch(stackingType){
+		case 0:
+			stackingMode = "Bin Standing Up";
+			break;
+		case 1:
+			stackingMode = "Bin Lying Down";
+			break;
+		case 2:
+			stackingMode = "Totes";
+		}
+		
+		// TOTE POSITION STOP \\
+		SmartDashboard.putString("Bin Mode:", stackingMode);
+		SmartDashboard.putNumber("Position", elevatorPosition);
+
 		SmartDashboard.putNumber("binPickup:", binPickup);
 		SmartDashboard.putNumber("binCarrying:", binCarrying);
 		SmartDashboard.putNumber("oneBin:", oneBin);
@@ -410,7 +425,7 @@ public class T_Elevator extends Command {
 		SmartDashboard.putNumber("threeBins:", threeBins);
 		SmartDashboard.putNumber("fourBins:", fourBins);
 		SmartDashboard.putNumber("fiveBins:", fiveBins);
-		
+
 		SmartDashboard.putNumber("totePickup:", totePickup);
 		SmartDashboard.putNumber("toteCarrying:", toteCarrying);
 		SmartDashboard.putNumber("oneTote:", oneTote);
@@ -419,9 +434,11 @@ public class T_Elevator extends Command {
 		SmartDashboard.putNumber("fourTotes:", fourTotes);
 		SmartDashboard.putNumber("fiveTotes:", fiveTotes);
 		
-		
-
-		
+		SmartDashboard.putNumber("oneBinDown:", oneBinDown);
+		SmartDashboard.putNumber("twoBinsDown:", twoBinsDown);
+		SmartDashboard.putNumber("threeBinsDown:", threeBinsDown);
+		SmartDashboard.putNumber("fourBinsDown:", fourBinsDown);
+		SmartDashboard.putNumber("fiveBinsDown:", fiveBinsDown);
 
 		// Error for P
 		double error = 0;
