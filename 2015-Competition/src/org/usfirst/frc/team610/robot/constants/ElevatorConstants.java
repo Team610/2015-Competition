@@ -15,19 +15,25 @@ public class ElevatorConstants {
 	
 	public static final double ElEVATOR_MID = 0.432;
 	public static final double ELEVATOR_TOP = 0.084; // 0.084 new top
-	// Totes
 	
+	// Totes
 	public static final double ELEVATOR_ONETOTES = 0.636;
 	public static final double ELEVATOR_TWOTOTES = 0.499;
 	public static final double ELEVATOR_THREETOTES = 0.353;
 	public static final double ELEVATOR_FOURTOTES = 0.218;
 	public static final double ELEVATOR_FIVETOTES = 0.084;
-	// Bins
+	// Bins Standing Up
 	public static final double ELEVATOR_ONEBINS = 0.663;
 	public static final double ELEVATOR_TWOBINS = 0.517;
 	public static final double ELEVATOR_THREEBINS = 0.371;
 	public static final double ELEVATOR_FOURBINS = 0.237;
 	public static final double ELEVATOR_FIVEBINS = 0.103;
+	// Bins Lying Down
+	public static final double ELEVATOR_ONEBINS_DOWN = 0.663;
+	public static final double ELEVATOR_TWOBINS_DOWN = 0.517;
+	public static final double ELEVATOR_THREEBINS_DOWN = 0.371;
+	public static final double ELEVATOR_FOURBINS_DOWN = 0.237;
+	public static final double ELEVATOR_FIVEBINS_DOWN = 0.103;
 
 	// Bumper electrical constants
 	public static final int BUMPER_SOLENOID_ARM1 = 0;
