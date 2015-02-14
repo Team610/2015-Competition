@@ -1,11 +1,12 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
+import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
-public class A_PositionMove extends Command {
+public class A_PositionMoveArm extends Command {
 	// The drivetrain reference.
 	private DriveTrain driveTrain;
 	// The gyro error from the previous loop. Used for the D.
@@ -35,7 +36,7 @@ public class A_PositionMove extends Command {
 	 * @param cap
 	 *            the motor power cap.
 	 */
-	public A_PositionMove(double tInches, double cap) {
+	public A_PositionMoveArm(double tInches, double cap) {
 		// Get the singleton drivetrain.
 		driveTrain = DriveTrain.getInstance();
 		// Make sure this is the only command using the drivetrain.
@@ -55,7 +56,7 @@ public class A_PositionMove extends Command {
 		gyroError = 0;
 		// If we are holding the current position, hold it for 90 seconds.
 		if (tInches == 0) {
-			setTimeout(0.5);
+			setTimeout(1);
 		}
 	}
 
@@ -91,6 +92,9 @@ public class A_PositionMove extends Command {
 		// Save the current errors for the next loop.
 		lastGyroError = gyroError;
 		lastEncoderError = encoderError;
+		if(Math.abs(encoderError)<50){
+			Bumper.getInstance().setArmsUp(false);
+		}
 
 	}
 

@@ -31,7 +31,7 @@ public class T_Elevator extends Command {
 	private double binPickup, binCarrying, oneBin, twoBins, threeBins,
 			fourBins, fiveBins;
 	// The target height.
-	private double oneBinDown, twoBinsDown, threeBinsDown, fourBinsDown,
+	private double binPickupDown,binCarryingDown, oneBinDown, twoBinsDown, threeBinsDown, fourBinsDown,
 			fiveBinsDown;
 	private double targetSetpoint = 0.7;
 	// Input from dpad on operator controller.
@@ -73,6 +73,8 @@ public class T_Elevator extends Command {
 		fourBins = ElevatorConstants.ELEVATOR_FOURBINS;
 		fiveBins = ElevatorConstants.ELEVATOR_FIVEBINS;
 
+		binPickupDown = ElevatorConstants.ELEVATOR_BINPICKUP_DOWN;
+		binCarryingDown = ElevatorConstants.ELEVATOR_BINCARRYING_DOWN;
 		oneBinDown = ElevatorConstants.ELEVATOR_ONEBINS_DOWN;
 		twoBinsDown = ElevatorConstants.ELEVATOR_TWOBINS_DOWN;
 		threeBinsDown = ElevatorConstants.ELEVATOR_THREEBINS_DOWN;
@@ -262,15 +264,15 @@ public class T_Elevator extends Command {
 			case ElevatorConstants.carryingBinDown:
 				switch (elevatorPosition) {
 				case 0:
-					if ((binPickup + trim > ElevatorConstants.ELEVATOR_TOP && binPickup
+					if ((binPickupDown + trim > ElevatorConstants.ELEVATOR_TOP && binPickupDown
 							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
-						binPickup += trim;
+						binPickupDown += trim;
 					}
 					break;
 				case 1:
-					if ((binCarrying + trim > ElevatorConstants.ELEVATOR_TOP && binCarrying
+					if ((binCarryingDown + trim > ElevatorConstants.ELEVATOR_TOP && binCarryingDown
 							+ trim < ElevatorConstants.ELEVATOR_BOTTOM)) {
-						binCarrying += trim;
+						binCarryingDown += trim;
 					}
 					break;
 				case 2:
@@ -335,6 +337,8 @@ public class T_Elevator extends Command {
 			fourBins = ElevatorConstants.ELEVATOR_FOURBINS;
 			fiveBins = ElevatorConstants.ELEVATOR_FIVEBINS;
 
+			binPickupDown = ElevatorConstants.ELEVATOR_BINPICKUP_DOWN;
+			binCarryingDown = ElevatorConstants.ELEVATOR_BINCARRYING_DOWN;
 			oneBinDown = ElevatorConstants.ELEVATOR_ONEBINS_DOWN;
 			twoBinsDown = ElevatorConstants.ELEVATOR_TWOBINS_DOWN;
 			threeBinsDown = ElevatorConstants.ELEVATOR_THREEBINS_DOWN;
@@ -408,11 +412,11 @@ public class T_Elevator extends Command {
 			switch (elevatorPosition) {
 
 			case 0:
-				targetSetpoint = binPickup;
+				targetSetpoint = binPickupDown;
 
 				break;
 			case 1:
-				targetSetpoint = binCarrying;
+				targetSetpoint = binCarryingDown;
 
 				break;
 			case 2:
@@ -468,6 +472,8 @@ public class T_Elevator extends Command {
 		SmartDashboard.putNumber("fourTotes:", fourTotes);
 		SmartDashboard.putNumber("fiveTotes:", fiveTotes);
 		
+		SmartDashboard.putNumber("binPickupDown:", binPickupDown);
+		SmartDashboard.putNumber("binCarryingDown:", binCarryingDown);
 		SmartDashboard.putNumber("oneBinDown:", oneBinDown);
 		SmartDashboard.putNumber("twoBinsDown:", twoBinsDown);
 		SmartDashboard.putNumber("threeBinsDown:", threeBinsDown);

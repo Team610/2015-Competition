@@ -11,15 +11,15 @@ public class A_ForwardBack extends CommandGroup {
     	
     	//Drive forward up to the step, set the wings open, bring the arm down.
     	//addParallel(new A_SetArmUp(false));    	
-    	addSequential(new A_PositionMove(-40, 1));
-    	addParallel(new A_SetArmUp(false));    	
+    	addSequential(new A_PositionMoveArm(-51, 1));
+//    	addParallel(new A_SetArmUp(false));    	
 
 //    	addParallel(new A_SetWingsOpen(false));
     	addSequential(new A_PositionMove(0, 1));
     	//Drive backwards and cap the speed at 0.5.
     	addSequential(new A_PositionMove(144,0.5));
     	//Bring the arm back up.
-    	addSequential(new A_SetArmUp(true));
+    	//addSequential(new A_SetArmUp(true));
         
     }
 }

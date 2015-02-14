@@ -10,11 +10,15 @@ public class ElevatorConstants {
 	// Elevator presets
 	public static final double ELEVATOR_BOTTOM = 0.84; // real bottom 0.89
 														// //Middle .60
-	public static final double ELEVATOR_BINPICKUP = 0.84; // real bottom 0.89
 
 	public static final double ELEVATOR_TOTEPICKUP = 0.84;
+	public static final double ELEVATOR_BINPICKUP = 0.84; // real bottom 0.89
+	public static final double ELEVATOR_BINPICKUP_DOWN = 0.79; // real bottom 0.89
+
+
 	public static final double ELEVATOR_TOTECARRYING = 0.796;
 	public static final double ELEVATOR_BINCARRYING = 0.790;
+	public static final double ELEVATOR_BINCARRYING_DOWN = 0.74;
 
 	
 	public static final double ElEVATOR_MID = 0.432;
@@ -36,11 +40,11 @@ public class ElevatorConstants {
 	public static final double ELEVATOR_FIVEBINS = 0.103;
 	// Bins Lying Down
 	//public static final double ELEVATOR_BINCARRYING_DOWN = .838;
-	public static final double ELEVATOR_ONEBINS_DOWN = 0.636;
-	public static final double ELEVATOR_TWOBINS_DOWN = 0.490;
-	public static final double ELEVATOR_THREEBINS_DOWN = 0.341;
-	public static final double ELEVATOR_FOURBINS_DOWN = 0.198;
-	public static final double ELEVATOR_FIVEBINS_DOWN = 0.103;
+	public static final double ELEVATOR_ONEBINS_DOWN = 0.586;
+	public static final double ELEVATOR_TWOBINS_DOWN = 0.440;
+	public static final double ELEVATOR_THREEBINS_DOWN = 0.301;
+	public static final double ELEVATOR_FOURBINS_DOWN = 0.148;
+	public static final double ELEVATOR_FIVEBINS_DOWN = 0.084;
 
 	// Bumper electrical constants
 	public static final int BUMPER_SOLENOID_ARM1 = 0;
