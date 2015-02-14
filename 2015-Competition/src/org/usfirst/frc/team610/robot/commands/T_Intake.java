@@ -22,6 +22,7 @@ public class T_Intake extends Command {
 	private Intake intake;
 	// Singleton instance of the driver;
 	private Joystick driver;
+	boolean intaking = false;
 
 	Timer timer = new Timer();
 
@@ -51,32 +52,53 @@ public class T_Intake extends Command {
 		} else if (driver.getRawButton(InputConstants.BTN_R1)) {
 
 			intake.setIntakeSpeed(1);
-		} else if (driver.getRawButton(InputConstants.BTN_R2)) {
-			// Close intake if the sensor detects an object.
-
-			if (!intake.getOptical()) {
-
-				if (timer.get() == 0) {
-
-					timer.start();
-
-				}
-
+		} else if (driver.getRawButton(InputConstants.BTN_R2)&&!intaking) {
+			//if the button is pressed and there is an object in the intake
+			if(!intake.getOptical()){
+				//Start the intaking routine and reset the timer
+				intaking = true;
+				timer = new Timer();
+				timer.reset();
+				timer.start();
+				//Close the intake on the object
 				intake.setIntakeOpen(false);
-
-				if (timer.get() == 0.5) {
-					intake.setIntakeSpeed(0);
-				}
-				isDetected = false;
 			} else {
-				// Positive Intaking
-
+				//If no object is there yet, leave the intake open and intake.
+				intake.setIntakeOpen(true);
 				intake.setIntakeSpeed(1);
 			}
+			
+			// Close intake if the sensor detects an object.
+
+//			if (!intake.getOptical()) {
+//				intake.setIntakeOpen(false);
+//				intake.setIntakeSpeed(0);
+//
+//			} else {
+//				// Positive Intaking
+//				intake.setIntakeOpen(true);
+//				intake.setIntakeSpeed(1);
+//			}
 		} else {
 			intake.setIntakeSpeed(0);
 		}
+		//If the button is released, cancel the intaking
+		if(!driver.getRawButton(InputConstants.BTN_R2)){
+			intaking = false;
+		}
+		//If the robot should be intaking
+		if(intaking){
+			intake.setIntakeOpen(false);
 
+			//Run the intake for the first 0.5 second.
+			if(timer.get()<0.5){
+				intake.setIntakeSpeed(1);
+			} else {
+				//Stop the intake until the button is released.
+				intake.setIntakeSpeed(0);
+			}
+		}
+		
 		// Set intake pistons with buttons.
 		if (driver.getRawButton(InputConstants.BTN_L1)) {
 			intake.setIntakeOpen(true);

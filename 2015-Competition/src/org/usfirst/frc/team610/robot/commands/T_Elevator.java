@@ -160,8 +160,8 @@ public class T_Elevator extends Command {
 
 		// Trimming
 		double trim = operator.getRawAxis(InputConstants.AXIS_RIGHT_Y);
-		trim = Math.pow(trim, 3) * 0.005;
-		if (trim > Math.pow(0.05 * 0.005,3)) {
+		trim *=  0.005;
+		if (Math.abs(trim) > 0.05 * 0.005) {
 			switch (stackingType) {
 			case ElevatorConstants.carryingBinUp:
 				switch (elevatorPosition) {
@@ -315,6 +315,31 @@ public class T_Elevator extends Command {
 		}
 		if(operator.getRawButton(InputConstants.BTN_L2)){
 			elevatorPosition = 0;
+		}
+		if(operator.getRawButton(InputConstants.BTN_START)){
+			// Set values to predetermined heights.
+
+			totePickup = ElevatorConstants.ELEVATOR_TOTEPICKUP;
+			toteCarrying = ElevatorConstants.ELEVATOR_TOTECARRYING;
+			oneTote = ElevatorConstants.ELEVATOR_ONETOTES;
+			twoTotes = ElevatorConstants.ELEVATOR_TWOTOTES;
+			threeTotes = ElevatorConstants.ELEVATOR_THREETOTES;
+			fourTotes = ElevatorConstants.ELEVATOR_FOURTOTES;
+			fiveTotes = ElevatorConstants.ELEVATOR_FIVETOTES;
+
+			binPickup = ElevatorConstants.ELEVATOR_BINPICKUP;
+			binCarrying = ElevatorConstants.ELEVATOR_BINCARRYING;
+			oneBin = ElevatorConstants.ELEVATOR_ONEBINS;
+			twoBins = ElevatorConstants.ELEVATOR_TWOBINS;
+			threeBins = ElevatorConstants.ELEVATOR_THREEBINS;
+			fourBins = ElevatorConstants.ELEVATOR_FOURBINS;
+			fiveBins = ElevatorConstants.ELEVATOR_FIVEBINS;
+
+			oneBinDown = ElevatorConstants.ELEVATOR_ONEBINS_DOWN;
+			twoBinsDown = ElevatorConstants.ELEVATOR_TWOBINS_DOWN;
+			threeBinsDown = ElevatorConstants.ELEVATOR_THREEBINS_DOWN;
+			fourBinsDown = ElevatorConstants.ELEVATOR_FOURBINS_DOWN;
+			fiveBinsDown = ElevatorConstants.ELEVATOR_FIVEBINS_DOWN;
 		}
 		
 		// If we are stacking containers
@@ -491,8 +516,8 @@ public class T_Elevator extends Command {
 
 			}
 		}
-		//elevator.setMotor(setMotorValue);
-		elevator.setMotor(0);
+		elevator.setMotor(setMotorValue);
+//		elevator.setMotor(0);
 
 	}
 
