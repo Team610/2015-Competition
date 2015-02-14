@@ -113,7 +113,7 @@ public class A_PositionMove extends Command {
 				return true;
 
 			} else {
-				System.out.println("A_Position not finished");
+				//System.out.println("A_Position not finished");
 				return false;
 
 			}
