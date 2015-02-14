@@ -18,7 +18,7 @@ public class ElectricalConstants {
 	public static final int INTAKE_SOL_R = 2;
 
 	// The encoder ticks to inches convsersion factor
-	public static final double ENCODER_INCHES = 0.0772635814889336;
+	public static final double ENCODER_INCHES = 0.04045213691;
 	public static final int DRIVETRAIN_ENCODER_LEFT_A = 2;
 	public static final int DRIVETRAIN_ENCODER_LEFT_B = 3;
 	public static final int DRIVETRAIN_ENCODER_RIGHT_A = 0;

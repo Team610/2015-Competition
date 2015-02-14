@@ -39,6 +39,7 @@ public class A_SetArmUp extends Command {
 
 	//returns true if arms are moved to correct position
 	protected boolean isFinished() {
+		System.out.println("A_SetArmUp is finished");
 		return isFinished;
 	}
 
