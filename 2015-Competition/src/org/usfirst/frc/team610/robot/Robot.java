@@ -1,20 +1,23 @@
 package org.usfirst.frc.team610.robot;
 
-import org.usfirst.frc.team610.robot.commands.G_Step;
-import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
 import org.usfirst.frc.team610.robot.commands.A_NoAuto;
+import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
-import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
+import org.usfirst.frc.team610.robot.commands.G_Step;
+import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
 import org.usfirst.frc.team610.robot.commands.G_StepBinLeft;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
+import org.usfirst.frc.team610.robot.constants.InputConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
+import edu.wpi.first.wpilibj.Joystick;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
 import edu.wpi.first.wpilibj.livewindow.LiveWindow;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class Robot extends IterativeRobot {
 
@@ -22,8 +25,10 @@ public class Robot extends IterativeRobot {
 	private Command readings;
 	// Commands to run at the beginning of teleop and auto.
 
-	private CommandGroup auto;
+	private CommandGroup auto,noAuto,twoBinStep,twoBinLeft,twoBinRight,twoStepBinCentre,twoStepBinLeft;
 	private CommandGroup teleop;
+	OI oi;
+	Joystick driver,operator;
 
 	// Command to run during auto.
 	// 0: None
@@ -36,18 +41,64 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 
+		oi = OI.getInstance();
+		
 		// instantiate the command used for the autonomous and teleop period
 		readings = new D_SensorReadings();
 		// Start pushing values to the SD.
 		readings.start();
+		driver = oi.getDriver();
+		operator = oi.getOperator();
 
 		auto = new A_NoAuto();
+		
+		
 		teleop = new T_TeleopGroup();
 
 	}
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+       
+		if(driver.getRawButton(InputConstants.BTN_A)){
+			autoMode = 1;
+		}else if(driver.getRawButton(InputConstants.BTN_X)){
+			autoMode = 2;
+		} else if(driver.getRawButton(InputConstants.BTN_B)){
+			autoMode = 3;
+		}else if(driver.getRawButton(InputConstants.BTN_Y)){
+			autoMode = 4;
+		}else if(operator.getRawButton(InputConstants.BTN_A)){
+			autoMode = 5;
+		}else if (operator.getRawButton(InputConstants.BTN_B)){
+			autoMode = 0;
+		}
+		
+		
+		switch (autoMode) {
+        case 0:
+            SmartDashboard.putString("Auto", "None");
+            break;
+        case 1:
+            SmartDashboard.putString("Auto", "Two Step");
+
+            break;
+        case 2:
+            SmartDashboard.putString("Auto", "Two Step Right");
+
+            break;
+        case 3:
+            SmartDashboard.putString("Auto", "Two Step Left");
+            break;
+        case 4:
+            SmartDashboard.putString("Auto", "Two Step Bin Centre");
+            break;
+        case 5:
+            SmartDashboard.putString("Auto", "Two Step Bin Left");
+            break;
+    
+    }
+		
 
 	}
 

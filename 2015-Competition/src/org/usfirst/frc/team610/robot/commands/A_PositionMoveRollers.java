@@ -82,14 +82,15 @@ public class A_PositionMoveRollers extends Command {
 				gyroError = tAngle - driveTrain.getYaw();
 				// Find the difference between the current error and the error from the
 				// last loop.
+				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
+				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
+				
 				diffGyroError = gyroError - lastGyroError;
 				// Add the gyro PID to the left and right speeds.
 				leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
 				rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
 				// Send the values to the drivetrain.
-				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
-				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
-				
+			
 				// Send the values to the drivetrain.
 				driveTrain.setLeft(leftSpeed);
 				driveTrain.setRight(rightSpeed);
