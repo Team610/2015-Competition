@@ -1,8 +1,12 @@
 package org.usfirst.frc.team610.robot;
 
-import org.usfirst.frc.team610.robot.commands.A_ForwardBack;
-import org.usfirst.frc.team610.robot.commands.A_PositionMove;
+import org.usfirst.frc.team610.robot.commands.G_Step;
+import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
+import org.usfirst.frc.team610.robot.commands.A_NoAuto;
+import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
+import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
 import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
+import org.usfirst.frc.team610.robot.commands.G_StepBinLeft;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
@@ -17,8 +21,18 @@ public class Robot extends IterativeRobot {
 	// Readings pushes values to the SD.
 	private Command readings;
 	// Commands to run at the beginning of teleop and auto.
+
 	private CommandGroup auto;
 	private CommandGroup teleop;
+
+	// Command to run during auto.
+	// 0: None
+	// 1: Two Step
+	// 2: Two Bins Right
+	// 3: Two Bins Left
+	// 4: Two Step Bin Centre
+	// 5: Two Step Bin Left
+	private int autoMode = 5;
 
 	public void robotInit() {
 
@@ -26,7 +40,8 @@ public class Robot extends IterativeRobot {
 		readings = new D_SensorReadings();
 		// Start pushing values to the SD.
 		readings.start();
-		auto = new A_ForwardBack();
+
+		auto = new A_NoAuto();
 		teleop = new T_TeleopGroup();
 
 	}
@@ -38,7 +53,26 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// Start autonomous and cancel teleop.
-		auto = new A_ForwardBack();
+		switch (autoMode) {
+		case 0:
+			auto = new A_NoAuto();
+			break;
+		case 1:
+			auto = new G_Step();
+			break;
+		case 2:
+			auto = new G_BinTwoRight();
+			break;
+		case 3:
+			auto = new G_BinTwoLeft();
+			break;
+		case 4:
+			auto = new G_StepBinCentre();
+			break;
+		case 5:
+			auto = new G_StepBinLeft();
+			break;
+		}
 
 		auto.start();
 		teleop.cancel();

@@ -76,6 +76,9 @@ public class A_PositionMoveArm extends Command {
 				- diffEncoderError * PIDConstants.ENCODER_D;
 		leftSpeed = encoderError * PIDConstants.ENCODER_P
 				- diffEncoderError * PIDConstants.ENCODER_D;
+		
+		rightSpeed = Math.max(-1,Math.min(1, rightSpeed));
+		leftSpeed = Math.max(-1,Math.min(1, leftSpeed));
 		// Calculate the speeds using P and D. Use Math.min to cap the value at
 		// cap.
 //		if (encoderError * PIDConstants.ENCODER_P - diffEncoderError * PIDConstants.ENCODER_D < 0) {
@@ -100,6 +103,8 @@ public class A_PositionMoveArm extends Command {
 		leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
 		rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
 		// Send the values to the drivetrain.
+		rightSpeed = Math.max(-cap,Math.min(cap, rightSpeed));
+		leftSpeed = Math.max(-cap,Math.min(cap, leftSpeed));
 		driveTrain.setLeft(leftSpeed);
 		driveTrain.setRight(rightSpeed);
 		// Save the current errors for the next loop.
@@ -110,12 +115,7 @@ public class A_PositionMoveArm extends Command {
 		}
 		SmartDashboard.putNumber("leftSpeed", leftSpeed);
 		SmartDashboard.putNumber("rightSpeed", rightSpeed);
-		SmartDashboard.putNumber("gyroP", gyroError * gyroP);
-		SmartDashboard.putNumber("gyroD", diffGyroError * gyroD);	
-		SmartDashboard.putNumber("encoderError", encoderError);
-
-		SmartDashboard.putNumber("encoderP", encoderError * PIDConstants.ENCODER_P);
-		SmartDashboard.putNumber("encoderD", diffEncoderError * PIDConstants.ENCODER_D);
+		
 	}
 
 	protected boolean isFinished() {
@@ -130,16 +130,14 @@ public class A_PositionMoveArm extends Command {
 				tick = 0;
 			}
 
-			if (tick > 7) {
+			if (tick > 0) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);
-				SmartDashboard.putBoolean("PositionMoveFinished", true);
 
 				System.out.println("A_Position Finished");
 				return true;
 
 			} else {
-				SmartDashboard.putBoolean("PositionMoveFinished", false);
 
 				// System.out.println("A_Position not finished");
 				return false;

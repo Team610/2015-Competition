@@ -1,14 +1,13 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
-import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.Intake;
 
-import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
-public class A_PositionMove extends Command {
+public class A_PositionMoveRollers extends Command {
 	// The drivetrain reference.
 	private DriveTrain driveTrain;
 	// The gyro error from the previous loop. Used for the D.
@@ -27,7 +26,7 @@ public class A_PositionMove extends Command {
 	private double encoderError;
 	// Count how long we've been in our target zone.
 	private int targetCounter = 0;
-
+	Intake intake;
 	private int tick = 0;
 
 	/**
@@ -38,9 +37,10 @@ public class A_PositionMove extends Command {
 	 * @param cap
 	 *            the motor power cap.
 	 */
-	public A_PositionMove(double tInches, double cap) {
+	public A_PositionMoveRollers(double tInches, double cap) {
 		// Get the singleton drivetrain.
 		driveTrain = DriveTrain.getInstance();
+		intake = Intake.getInstance();
 		// Make sure this is the only command using the drivetrain.
 		requires(driveTrain);
 		// Save the tInches and cap locally.
@@ -64,50 +64,49 @@ public class A_PositionMove extends Command {
 
 	protected void execute() {
 		// Get the gyro P and D from PIDConstants.
-		double gyroP = PIDConstants.GYRO_P;
-		double gyroD = PIDConstants.GYRO_D;
-		double leftSpeed, rightSpeed;
-		double diffGyroError, diffEncoderError;
-		// Calculate the encoder error.
-		encoderError = tInches - driveTrain.getAvgDistance();
-		// Find the difference between the current error and the error from the
-		// last loop.
-		diffEncoderError = encoderError - lastEncoderError;
-		rightSpeed = encoderError * PIDConstants.ENCODER_P - diffEncoderError
-				* PIDConstants.ENCODER_D;
-		leftSpeed = encoderError * PIDConstants.ENCODER_P - diffEncoderError
-				* PIDConstants.ENCODER_D;
+				double gyroP = PIDConstants.GYRO_P;
+				double gyroD = PIDConstants.GYRO_D;
+				double leftSpeed, rightSpeed;
+				double diffGyroError, diffEncoderError;
+				// Calculate the encoder error.
+				encoderError = tInches - driveTrain.getAvgDistance();
+				// Find the difference between the current error and the error from the
+				// last loop.
+				diffEncoderError = encoderError - lastEncoderError;
+				rightSpeed = encoderError * PIDConstants.ENCODER_P
+						- diffEncoderError * PIDConstants.ENCODER_D;
+				leftSpeed = encoderError * PIDConstants.ENCODER_P
+						- diffEncoderError * PIDConstants.ENCODER_D;
 
-		// Calculate the gyro error.
-		gyroError = tAngle - driveTrain.getYaw();
-		// Find the difference between the current error and the error from the
-		// last loop.
-		diffGyroError = gyroError - lastGyroError;
-		// Add the gyro PID to the left and right speeds.
-		leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
-		rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
-		// Send the values to the drivetrain.
-		rightSpeed = Math.max(-cap, Math.min(cap, rightSpeed));
-		leftSpeed = Math.max(-cap, Math.min(cap, leftSpeed));
-
-		// Send the values to the drivetrain.
-		driveTrain.setLeft(leftSpeed);
-		driveTrain.setRight(rightSpeed);
-		// Save the current errors for the next loop.
-		lastGyroError = gyroError;
-		lastEncoderError = encoderError;
-
-		SmartDashboard.putNumber("leftSpeed", leftSpeed);
-		SmartDashboard.putNumber("rightSpeed", rightSpeed);
-		PowerDistributionPanel pdp =  new PowerDistributionPanel();
-		SmartDashboard.putNumber("current", pdp.getCurrent(14));
-
-
+				// Calculate the gyro error.
+				gyroError = tAngle - driveTrain.getYaw();
+				// Find the difference between the current error and the error from the
+				// last loop.
+				diffGyroError = gyroError - lastGyroError;
+				// Add the gyro PID to the left and right speeds.
+				leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
+				rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
+				// Send the values to the drivetrain.
+				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
+				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
+				
+				// Send the values to the drivetrain.
+				driveTrain.setLeft(leftSpeed);
+				driveTrain.setRight(rightSpeed);
+				// Save the current errors for the next loop.
+				lastGyroError = gyroError;
+				lastEncoderError = encoderError;
+				intake.setIntakeOpen(true);
+				intake.setLeftRoller(DriveTrain.getInstance().getLeftVbus());
+				intake.setRightRoller(DriveTrain.getInstance().getRightVbus());
+				SmartDashboard.putNumber("leftSpeed", leftSpeed);
+				SmartDashboard.putNumber("rightSpeed", rightSpeed);
+				
 	}
 
 	protected boolean isFinished() {
-		// return false;
-		SmartDashboard.putNumber("FinishTicks", tick);
+//		 return false;
+		SmartDashboard.putNumber("FinishTicks",tick);
 
 		if (tInches == 0) {
 			return isTimedOut();
@@ -121,16 +120,17 @@ public class A_PositionMove extends Command {
 			if (tick > 10) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);
-				SmartDashboard.putBoolean("PositionMoveFinished", true);
+				SmartDashboard.putBoolean("PositionMoveFinished",true);
 				System.out.println("A_Position Finished");
 				return true;
 
 			} else {
-				// System.out.println("A_Position not finished");
+				//System.out.println("A_Position not finished");
 				return false;
 
 			}
 		}
+		
 
 	}
 
