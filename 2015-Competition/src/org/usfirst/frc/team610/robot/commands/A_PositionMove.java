@@ -89,7 +89,8 @@ public class A_PositionMove extends Command {
 		leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
 		rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
 		// Send the values to the drivetrain.
-	
+		rightSpeed = Math.max(-cap, Math.min(cap, rightSpeed));
+		leftSpeed = Math.max(-cap, Math.min(cap, leftSpeed));
 
 		// Send the values to the drivetrain.
 		driveTrain.setLeft(leftSpeed);

@@ -19,9 +19,9 @@ public class G_Step extends CommandGroup {
     	addSequential(new A_PositionMove(150,1));
     	addSequential(new A_SetArmUp(true));
 //    	  addSequential(new A_Turn(3));
-          addParallel(new A_SetIntaking(1,5));
-          addParallel(new A_SetIntakeOpen(true,true,0));
-          addSequential(new A_PositionMove(120,1));
+//          addParallel(new A_SetIntaking(1,5));
+//          addParallel(new A_SetIntakeOpen(true,true,0));
+//          addSequential(new A_PositionMove(120,1));
 
 
     	//Bring the arm back up.

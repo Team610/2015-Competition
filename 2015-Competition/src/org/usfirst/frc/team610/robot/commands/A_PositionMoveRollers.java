@@ -90,7 +90,8 @@ public class A_PositionMoveRollers extends Command {
 				leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
 				rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
 				// Send the values to the drivetrain.
-			
+				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
+				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
 				// Send the values to the drivetrain.
 				driveTrain.setLeft(leftSpeed);
 				driveTrain.setRight(rightSpeed);

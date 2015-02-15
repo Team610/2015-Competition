@@ -37,7 +37,7 @@ public class Robot extends IterativeRobot {
 	// 3: Two Bins Left
 	// 4: Two Step Bin Centre
 	// 5: Two Step Bin Left
-	private int autoMode = 5;
+	private int autoMode = 1;
 
 	public void robotInit() {
 

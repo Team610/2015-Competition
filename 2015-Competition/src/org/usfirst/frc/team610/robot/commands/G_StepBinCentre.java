@@ -11,13 +11,15 @@ public class G_StepBinCentre extends CommandGroup {
     	//Reset the encoders and gyro.
     	
     	//Drive forward up to the step, set the wings open, bring the arm down.
-//    	addParallel(new A_SetWingsOpen(true));
-    	addParallel(new A_SetWingsOpen(false));
-    	addParallel(new A_SetArmUp(true));
-    	addSequential(new A_PositionMove(-47, 0.6)); // 49
+    	//addParallel(new A_SetWingsOpen(true));
+    	//addParallel(new A_SetWingsOpen(true));
+    	addParallel(new A_SetArmUp(false));
+    	addSequential(new A_PositionMove(-51, 0.6)); // 49
 
 		addSequential(new A_PositionMove(150,0.6));
-    	addSequential(new A_SetArmUp(true));
+		addSequential(new A_SetWingsOpen(false));
+    	
+		addSequential(new A_SetArmUp(true));
     	addSequential(new A_Turn(45));
     	addSequential(new A_PositionMove(57,0.6));
     	addSequential(new A_Turn(-74));
