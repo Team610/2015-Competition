@@ -5,6 +5,7 @@ import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 public class A_PositionMoveArm extends Command {
 	// The drivetrain reference.
@@ -56,7 +57,7 @@ public class A_PositionMoveArm extends Command {
 		gyroError = 0;
 		// If we are holding the current position, hold it for 90 seconds.
 		if (tInches == 0) {
-			setTimeout(1);
+			setTimeout(0.5);
 		}
 	}
 
@@ -71,13 +72,25 @@ public class A_PositionMoveArm extends Command {
 		// Find the difference between the current error and the error from the
 		// last loop.
 		diffEncoderError = encoderError - lastEncoderError;
-
+		rightSpeed = encoderError * PIDConstants.ENCODER_P
+				- diffEncoderError * PIDConstants.ENCODER_D;
+		leftSpeed = encoderError * PIDConstants.ENCODER_P
+				- diffEncoderError * PIDConstants.ENCODER_D;
 		// Calculate the speeds using P and D. Use Math.min to cap the value at
 		// cap.
-		rightSpeed = Math.min(cap, encoderError * PIDConstants.ENCODER_P
-				- diffEncoderError * gyroD);
-		leftSpeed = Math.min(cap, encoderError * PIDConstants.ENCODER_P
-				- diffEncoderError * gyroD);
+//		if (encoderError * PIDConstants.ENCODER_P - diffEncoderError * PIDConstants.ENCODER_D < 0) {
+//			rightSpeed = Math.max(cap, encoderError * PIDConstants.ENCODER_P
+//					- diffEncoderError * PIDConstants.ENCODER_D);
+//			leftSpeed = Math.max(cap, encoderError * PIDConstants.ENCODER_P
+//					- diffEncoderError * PIDConstants.ENCODER_D);
+//		} else {
+//			rightSpeed = Math.min(cap, encoderError * PIDConstants.ENCODER_P
+//					- diffEncoderError * PIDConstants.ENCODER_D);
+//			leftSpeed = Math.min(cap, encoderError * PIDConstants.ENCODER_P
+//					- diffEncoderError * PIDConstants.ENCODER_D);
+//		}
+
+
 		// Calculate the gyro error.
 		gyroError = tAngle - driveTrain.getYaw();
 		// Find the difference between the current error and the error from the
@@ -92,14 +105,21 @@ public class A_PositionMoveArm extends Command {
 		// Save the current errors for the next loop.
 		lastGyroError = gyroError;
 		lastEncoderError = encoderError;
-		if(Math.abs(encoderError)<50){
+		if (Math.abs(encoderError) < 50) {
 			Bumper.getInstance().setArmsUp(false);
 		}
+		SmartDashboard.putNumber("leftSpeed", leftSpeed);
+		SmartDashboard.putNumber("rightSpeed", rightSpeed);
+		SmartDashboard.putNumber("gyroP", gyroError * gyroP);
+		SmartDashboard.putNumber("gyroD", diffGyroError * gyroD);	
+		SmartDashboard.putNumber("encoderError", encoderError);
 
+		SmartDashboard.putNumber("encoderP", encoderError * PIDConstants.ENCODER_P);
+		SmartDashboard.putNumber("encoderD", diffEncoderError * PIDConstants.ENCODER_D);
 	}
 
 	protected boolean isFinished() {
-		// return false;
+//		return false;
 
 		if (tInches == 0) {
 			return isTimedOut();
@@ -110,14 +130,18 @@ public class A_PositionMoveArm extends Command {
 				tick = 0;
 			}
 
-			if (tick > 20) {
+			if (tick > 7) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);
+				SmartDashboard.putBoolean("PositionMoveFinished", true);
+
 				System.out.println("A_Position Finished");
 				return true;
 
 			} else {
-				//System.out.println("A_Position not finished");
+				SmartDashboard.putBoolean("PositionMoveFinished", false);
+
+				// System.out.println("A_Position not finished");
 				return false;
 
 			}

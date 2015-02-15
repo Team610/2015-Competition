@@ -13,12 +13,12 @@ public class ElevatorConstants {
 
 	public static final double ELEVATOR_TOTEPICKUP = 0.84;
 	public static final double ELEVATOR_BINPICKUP = 0.84; // real bottom 0.89
-	public static final double ELEVATOR_BINPICKUP_DOWN = 0.79; // real bottom 0.89
+	public static final double ELEVATOR_BINPICKUP_DOWN = 0.809; // real bottom 0.89
 
 
 	public static final double ELEVATOR_TOTECARRYING = 0.796;
 	public static final double ELEVATOR_BINCARRYING = 0.790;
-	public static final double ELEVATOR_BINCARRYING_DOWN = 0.74;
+	public static final double ELEVATOR_BINCARRYING_DOWN = 0.759;
 
 	
 	public static final double ElEVATOR_MID = 0.432;

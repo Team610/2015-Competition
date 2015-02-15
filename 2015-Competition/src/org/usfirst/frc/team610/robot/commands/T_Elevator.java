@@ -80,7 +80,7 @@ public class T_Elevator extends Command {
 		threeBinsDown = ElevatorConstants.ELEVATOR_THREEBINS_DOWN;
 		fourBinsDown = ElevatorConstants.ELEVATOR_FOURBINS_DOWN;
 		fiveBinsDown = ElevatorConstants.ELEVATOR_FIVEBINS_DOWN;
-
+		requires(elevator);
 	}
 
 	// Called just before this Command runs the first time
@@ -454,7 +454,7 @@ public class T_Elevator extends Command {
 		
 		// TOTE POSITION STOP \\
 		SmartDashboard.putString("Bin Mode:", stackingMode);
-		SmartDashboard.putNumber("Position", elevatorPosition);
+		SmartDashboard.putNumber("Position", elevatorPosition-1);
 
 		SmartDashboard.putNumber("binPickup:", binPickup);
 		SmartDashboard.putNumber("binCarrying:", binCarrying);

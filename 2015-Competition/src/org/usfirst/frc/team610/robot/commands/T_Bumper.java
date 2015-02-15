@@ -13,7 +13,7 @@ public class T_Bumper extends Command {
 	Bumper bumper;
 	OI oi;
 	boolean wingsButtonPressed = false;
-	boolean wingsOpen = true;
+	boolean wingsOpen = false;
 
 	public T_Bumper() {
 		// Get the singleton bumper and OI

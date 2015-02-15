@@ -27,10 +27,7 @@ public class T_KajDrive extends Command {
     	driver = OI.getInstance().getDriver();
     	operator = OI.getInstance().getOperator();
     	driveTrain = DriveTrain.getInstance();
-    	
-    	
-        // Use requires() here to declare subsystem dependencies
-        // eg. requires(chassis);
+    	requires(driveTrain);
     }
 
     

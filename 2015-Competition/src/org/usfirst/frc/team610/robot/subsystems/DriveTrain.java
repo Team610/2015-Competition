@@ -26,7 +26,7 @@ public class DriveTrain extends Subsystem {
 	Encoder left;
 	Encoder right;
 	Compressor comp;
-
+	double leftVbus, rightVbus;
 	static DriveTrain instance;
 
 	private DriveTrain() {
@@ -70,17 +70,27 @@ public class DriveTrain extends Subsystem {
 	public void setLeft(double speed) {
 		leftFront.set(speed);
 		leftBack.set(speed);
+		this.leftVbus = speed;
 	}
 
 	// Set right speed
 	public void setRight(double speed) {
 		rightFront.set(speed);
 		rightBack.set(speed);
+		this.rightVbus = speed;
 	}
 
 	// Gyro
 	public double getYaw() {
 		return -1 * imu.getYaw();
+	}
+
+	public double getLeftVbus() {
+		return leftVbus;
+	}
+
+	public double getRightVbus() {
+		return rightVbus;
 	}
 
 	// Zero Gyro

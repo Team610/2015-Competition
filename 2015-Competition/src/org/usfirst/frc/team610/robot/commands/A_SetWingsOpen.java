@@ -29,7 +29,7 @@ public class A_SetWingsOpen extends Command {
 
 	protected void execute() {
 		// Set the position of the wings.
-		bumper.setWingsOpen(isFinished);
+		bumper.setWingsOpen(true);
 		// End the command.
 		isFinished = true;
 	}

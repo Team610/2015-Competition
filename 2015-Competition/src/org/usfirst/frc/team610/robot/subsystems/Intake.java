@@ -38,13 +38,19 @@ public class Intake extends Subsystem {
 	public boolean getOptical(){
 		return optical.get();
 	}
-	public void setIntakeSpeed(int v){
+	public void setIntakeSpeed(double v){
 		//Can add battery management stuff later on.
 		//One of these will eventually be negative, have to wait for finished robot.
 		leftRoller.set(-v);
 		rightRoller.set(v);
 		
 		
+	}
+	public void setLeftRoller(double v){
+		leftRoller.set(-v);
+
+	} public void setRightRoller(double v){
+		rightRoller.set(v);
 	}
 	public void setIntakeOpen(boolean open){
 		isOpen = open;

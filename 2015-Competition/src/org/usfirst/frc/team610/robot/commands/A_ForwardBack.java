@@ -7,19 +7,21 @@ public class A_ForwardBack extends CommandGroup {
     
     public  A_ForwardBack() {
     	//Reset the encoders and gyro.
-    	addSequential(new T_ResetSensors());
+//    	addSequential(new T_ResetSensors());
     	
     	//Drive forward up to the step, set the wings open, bring the arm down.
-    	//addParallel(new A_SetArmUp(false));    	
-    	addSequential(new A_PositionMoveArm(-51, 1));
-//    	addParallel(new A_SetArmUp(false));    	
+    	addParallel(new A_SetWingsOpen(true));
 
-//    	addParallel(new A_SetWingsOpen(false));
-    	addSequential(new A_PositionMove(0, 1));
+    	addSequential(new A_PositionMoveArm(-49, 1));
+    	
+
     	//Drive backwards and cap the speed at 0.5.
-    	addSequential(new A_PositionMove(144,0.5));
+    	addSequential(new A_PositionMove(140,1));
+    	addSequential(new A_SetArmUp(true));
+
+
+
     	//Bring the arm back up.
-    	//addSequential(new A_SetArmUp(true));
         
     }
 }
