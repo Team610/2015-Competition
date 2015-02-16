@@ -23,6 +23,7 @@ public class T_Bumper extends Command {
 	}
 
 	protected void initialize() {
+		wingsOpen = false;
 		System.out.println("T_Bumper");
 	}
 
@@ -44,11 +45,7 @@ public class T_Bumper extends Command {
 		}
 
 		bumper.setWingsOpen(wingsOpen);
-		if(oi.getDriver().getRawButton(InputConstants.BTN_Y)){
-			bumper.setWinchVbus(0.7);
-		} else {
-			bumper.setWinchVbus(0);
-		}
+		
 
 	}
 

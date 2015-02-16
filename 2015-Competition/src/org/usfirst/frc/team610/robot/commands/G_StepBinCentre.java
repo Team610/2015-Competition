@@ -24,7 +24,7 @@ public class G_StepBinCentre extends CommandGroup {
     	addSequential(new A_PositionMove(57,0.6));
     	addSequential(new A_Turn(-74));
     	addParallel(new A_PositionMoveIndefinite(70, 0.4));
-		addSequential(new A_SetIntakeOpen(true, true,0));
+		addSequential(new A_SetIntakeOpen(true, true,4));
 		addSequential(new A_Wait(0.5));
 		addSequential(new A_Elevator(ElevatorConstants.ELEVATOR_BINCARRYING));
     	addSequential(new A_PositionMove(-130, 0.6));

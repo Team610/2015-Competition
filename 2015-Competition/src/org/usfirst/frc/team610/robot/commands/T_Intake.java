@@ -71,7 +71,11 @@ public class T_Intake extends Command {
 				intake.setIntakeSpeed(1);
 			}
 
-		} else {
+		} else if(driver.getRawButton(InputConstants.BTN_Y)){
+			intake.setIntakeSpeed(-0.75);
+
+		}else {
+		
 			intake.setIntakeSpeed(0);
 		}
 

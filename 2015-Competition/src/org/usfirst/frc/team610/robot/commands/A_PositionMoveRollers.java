@@ -64,51 +64,48 @@ public class A_PositionMoveRollers extends Command {
 
 	protected void execute() {
 		// Get the gyro P and D from PIDConstants.
-				double gyroP = PIDConstants.GYRO_P;
-				double gyroD = PIDConstants.GYRO_D;
-				double leftSpeed, rightSpeed;
-				double diffGyroError, diffEncoderError;
-				// Calculate the encoder error.
-				encoderError = tInches - driveTrain.getAvgDistance();
-				// Find the difference between the current error and the error from the
-				// last loop.
-				diffEncoderError = encoderError - lastEncoderError;
-				rightSpeed = encoderError * PIDConstants.ENCODER_P
-						- diffEncoderError * PIDConstants.ENCODER_D;
-				leftSpeed = encoderError * PIDConstants.ENCODER_P
-						- diffEncoderError * PIDConstants.ENCODER_D;
+		double gyroP = PIDConstants.GYRO_P;
+		double gyroD = PIDConstants.GYRO_D;
+		double leftSpeed, rightSpeed;
+		double diffGyroError, diffEncoderError;
+		// Calculate the encoder error.
+		encoderError = tInches - driveTrain.getAvgDistance();
+		// Find the difference between the current error and the error from the
+		// last loop.
+		diffEncoderError = encoderError - lastEncoderError;
+		rightSpeed = encoderError * PIDConstants.ENCODER_P - diffEncoderError
+				* PIDConstants.ENCODER_D;
+		leftSpeed = encoderError * PIDConstants.ENCODER_P - diffEncoderError
+				* PIDConstants.ENCODER_D;
 
-				// Calculate the gyro error.
-				gyroError = tAngle - driveTrain.getYaw();
-				// Find the difference between the current error and the error from the
-				// last loop.
-				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
-				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
-				
-				diffGyroError = gyroError - lastGyroError;
-				// Add the gyro PID to the left and right speeds.
-				leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
-				rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
-				// Send the values to the drivetrain.
-				rightSpeed = Math.max(-0.6,Math.min(0.6, rightSpeed));
-				leftSpeed = Math.max(-0.6,Math.min(0.6, leftSpeed));
-				// Send the values to the drivetrain.
-				driveTrain.setLeft(leftSpeed);
-				driveTrain.setRight(rightSpeed);
-				// Save the current errors for the next loop.
-				lastGyroError = gyroError;
-				lastEncoderError = encoderError;
-				intake.setIntakeOpen(true);
-				intake.setLeftRoller(DriveTrain.getInstance().getLeftVbus());
-				intake.setRightRoller(DriveTrain.getInstance().getRightVbus());
-				SmartDashboard.putNumber("leftSpeed", leftSpeed);
-				SmartDashboard.putNumber("rightSpeed", rightSpeed);
-				
+		// Calculate the gyro error.
+		gyroError = tAngle - driveTrain.getYaw();
+		// Send the values to the drivetrain.
+		rightSpeed = Math.max(-cap, Math.min(cap, rightSpeed));
+		leftSpeed = Math.max(-cap, Math.min(cap, leftSpeed));
+
+		diffGyroError = gyroError - lastGyroError;
+		// Add the gyro PID to the left and right speeds.
+		leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
+		rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
+	
+		// Send the values to the drivetrain.
+		driveTrain.setLeft(leftSpeed);
+		driveTrain.setRight(rightSpeed);
+		// Save the current errors for the next loop.
+		lastGyroError = gyroError;
+		lastEncoderError = encoderError;
+		intake.setIntakeOpen(true);
+		intake.setLeftRoller(DriveTrain.getInstance().getLeftVbus());
+		intake.setRightRoller(DriveTrain.getInstance().getRightVbus());
+		SmartDashboard.putNumber("leftSpeed", leftSpeed);
+		SmartDashboard.putNumber("rightSpeed", rightSpeed);
+
 	}
 
 	protected boolean isFinished() {
-//		 return false;
-		SmartDashboard.putNumber("FinishTicks",tick);
+		// return false;
+		SmartDashboard.putNumber("FinishTicks", tick);
 
 		if (tInches == 0) {
 			return isTimedOut();
@@ -122,21 +119,24 @@ public class A_PositionMoveRollers extends Command {
 			if (tick > 10) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);
-				SmartDashboard.putBoolean("PositionMoveFinished",true);
+				SmartDashboard.putBoolean("PositionMoveFinished", true);
 				System.out.println("A_Position Finished");
 				return true;
 
 			} else {
-				//System.out.println("A_Position not finished");
+				// System.out.println("A_Position not finished");
 				return false;
 
 			}
 		}
-		
 
 	}
 
 	protected void end() {
+		intake.setLeftRoller(0);
+		intake.setRightRoller(0);
+		driveTrain.setLeft(0);
+		driveTrain.setRight(0);
 	}
 
 	protected void interrupted() {

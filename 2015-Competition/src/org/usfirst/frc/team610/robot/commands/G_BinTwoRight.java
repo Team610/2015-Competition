@@ -24,7 +24,7 @@ public class G_BinTwoRight extends CommandGroup {
 
 		addSequential(new A_Turn(-90));
 		addParallel(new A_PositionMoveIndefinite(105, 0.6));
-		addSequential(new A_SetIntakeOpen(true, true,0));
+		addSequential(new A_SetIntakeOpen(true, true,4));
 
 		addSequential(new A_Elevator(ElevatorConstants.ELEVATOR_BINCARRYING));
 		addSequential(new A_Turn(90));

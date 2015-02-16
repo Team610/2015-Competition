@@ -104,9 +104,7 @@ public class A_PositionMoveArm extends Command {
 		// Add the gyro PID to the left and right speeds.
 		leftSpeed -= gyroError * gyroP + diffGyroError * gyroD;
 		rightSpeed += gyroError * gyroP + diffGyroError * gyroD;
-		// Send the values to the drivetrain.
-		rightSpeed = Math.max(-cap,Math.min(cap, rightSpeed));
-		leftSpeed = Math.max(-cap,Math.min(cap, leftSpeed));
+
 		driveTrain.setLeft(leftSpeed);
 		driveTrain.setRight(rightSpeed);
 		// Save the current errors for the next loop.

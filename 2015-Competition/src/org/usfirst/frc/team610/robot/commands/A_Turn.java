@@ -39,7 +39,7 @@ public class A_Turn extends Command {
     public A_Turn(int targetAngle) {
     	driveTrain = DriveTrain.getInstance();
     	this.targetAngle = targetAngle;
-    	setTimeout(3);
+    	setTimeout(2);
     	requires(driveTrain);
     	
         // Use requires() here to declare subsystem dependencies
@@ -118,7 +118,7 @@ public class A_Turn extends Command {
     	
     	gyroError = tAngle - driveTrain.getYaw();
     	
-    	if(Math.abs(gyroError) < 1){
+    	if(Math.abs(gyroError) < 2){
     		ticks++;
     		
     	}

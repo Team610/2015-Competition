@@ -26,8 +26,9 @@ public class A_SetIntakeOpen extends Command {
 		this.sensor = sensor;
 		this.position = position;
 		this.timeout = timeout;
-		setTimeout(timeout);
-
+		if (timeout != 0) {
+			setTimeout(timeout);
+		}
 		requires(intake);
 	}
 
@@ -61,15 +62,14 @@ public class A_SetIntakeOpen extends Command {
 	// returns true if arms are moved to correct position
 	protected boolean isFinished() {
 		System.out.println("A_SetIntakeOpen is finished");
-		if(sensor){
-			return sensed;
-		}
-		else if (timeout == 0) {
-		
+		if (sensor) {
+			return sensed||isTimedOut();
+		} else if (timeout == 0) {
+
 			return finished;
 
 		} else {
-		
+
 			return isTimedOut();
 		}
 

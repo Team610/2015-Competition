@@ -17,10 +17,8 @@ public class Bumper extends Subsystem {
 	DoubleSolenoid arm;
 	// DoubleSolenoid for the wings
 	DoubleSolenoid wings;
-	// Talon which is connected to the motor
-	Talon winch;
-	// Encoder connected to the winch
-	Encoder winchEncoder;
+	
+
 	// PDP in order to check the current to the winch, to prevent the motor from
 	// stalling
 	PowerDistributionPanel pdp;
@@ -38,9 +36,7 @@ public class Bumper extends Subsystem {
 				ElectricalConstants.BUMPER_SOLENOID_ARM2);
 		wings = new DoubleSolenoid(ElectricalConstants.BUMPER_SOLENOID_WING1,
 				ElectricalConstants.BUMPER_SOLENOID_WING2);
-		winch = new Talon(ElectricalConstants.TALON_WINCH);
-		winchEncoder = new Encoder(ElectricalConstants.BUMPER_ENCODER_WINCH1,
-				ElectricalConstants.BUMPER_ENCODER_WINCH2);
+
 		pdp = new PowerDistributionPanel();
 	}
 
@@ -80,35 +76,7 @@ public class Bumper extends Subsystem {
 		}
 	}
 
-	// Sets the winch
-	public void setWinchEncoder(double distance) {
-		double error = distance - winchEncoder.getDistance();
-		if (pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL) > 20) {
-			if (Math.abs(error) > 150) {
-				winch.set(error);
-			} else {
-				winch.set(0);
-			}
-		} else {
-			winch.set(0);
-		}
-
-	}
-	public void setWinchVbus(double power){
-		winch.set(power);
-
-	}
-
-	// Getter for Winch Encoder
-	public double getWinchEncoder() {
-		return winchEncoder.getDistance();
-	}
-
-	// Resets the Winch Encoder
-	public void resetWinchEncoder() {
-		winchEncoder.reset();
-	}
-
+	
 	// Gets the current from the Winch, Currently deprecated.
 	public double getCurrent() {
 		return pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL);

@@ -23,11 +23,12 @@ public class G_BinTwoLeft extends CommandGroup {
 
 		addSequential(new A_Turn(90));
 		addParallel(new A_PositionMoveIndefinite(50, 0.6));
-		addSequential(new A_SetIntakeOpen(true, true,0));
+		addSequential(new A_SetIntakeOpen(true, true,4));
 
 		addSequential(new A_Elevator(ElevatorConstants.ELEVATOR_BINCARRYING));
 		addSequential(new A_Turn(-90));
 		addSequential(new A_PositionMove(110, 0.6));
+		
 		addParallel(new A_SetIntakeOpen(true, false,0));
 		addSequential(new A_Wait(0.5));
 
