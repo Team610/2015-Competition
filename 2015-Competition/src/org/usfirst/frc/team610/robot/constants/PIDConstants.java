@@ -13,7 +13,7 @@ public class PIDConstants {
 	public static final double ELEVATOR_I = 0.02; //0.005
 	
 	public static final double TURN_GYRO_P = -0.09;
-	public static final double TURN_GYRO_D = -0.5;
+	public static final double TURN_GYRO_D = -0.7;
 
 	
 	

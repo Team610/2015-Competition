@@ -1,12 +1,13 @@
 package org.usfirst.frc.team610.robot;
 
-import org.usfirst.frc.team610.robot.commands.A_NoAuto;
+import org.usfirst.frc.team610.robot.commands.G_NoAuto;
 import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
 import org.usfirst.frc.team610.robot.commands.G_Step;
 import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
 import org.usfirst.frc.team610.robot.commands.G_StepBinLeft;
+import org.usfirst.frc.team610.robot.commands.G_TurnTest;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
@@ -37,7 +38,7 @@ public class Robot extends IterativeRobot {
 	// 3: Two Bins Left
 	// 4: Two Step Bin Centre
 	// 5: Two Step Bin Left
-	private int autoMode = 1;
+	private int autoMode = 0;
 
 	public void robotInit() {
 
@@ -50,7 +51,7 @@ public class Robot extends IterativeRobot {
 		driver = oi.getDriver();
 		operator = oi.getOperator();
 
-		auto = new A_NoAuto();
+		auto = new G_NoAuto();
 		
 		
 		teleop = new T_TeleopGroup();
@@ -77,18 +78,18 @@ public class Robot extends IterativeRobot {
 		
 		switch (autoMode) {
         case 0:
-            SmartDashboard.putString("Auto", "None");
+            SmartDashboard.putString("Auto", "No Auto");
             break;
         case 1:
             SmartDashboard.putString("Auto", "Two Step");
 
             break;
         case 2:
-            SmartDashboard.putString("Auto", "Two Step Right");
+            SmartDashboard.putString("Auto", "Two Right");
 
             break;
         case 3:
-            SmartDashboard.putString("Auto", "Two Step Left");
+            SmartDashboard.putString("Auto", "Two Left");
             break;
         case 4:
             SmartDashboard.putString("Auto", "Two Step Bin Centre");
@@ -106,7 +107,7 @@ public class Robot extends IterativeRobot {
 		// Start autonomous and cancel teleop.
 		switch (autoMode) {
 		case 0:
-			auto = new A_NoAuto();
+			auto = new G_NoAuto();
 			break;
 		case 1:
 			auto = new G_Step();

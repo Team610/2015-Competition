@@ -5,9 +5,9 @@ import edu.wpi.first.wpilibj.command.CommandGroup;
 /**
  *
  */
-public class A_NoAuto extends CommandGroup {
+public class G_NoAuto extends CommandGroup {
 
-	public A_NoAuto() {
+	public G_NoAuto() {
 
 	}
 }
