@@ -39,7 +39,6 @@ public class ElevatorConstants {
 	public static final double ELEVATOR_FOURBINS = 0.237;
 	public static final double ELEVATOR_FIVEBINS = 0.103;
 	// Bins Lying Down
-	//public static final double ELEVATOR_BINCARRYING_DOWN = .838;
 	public static final double ELEVATOR_ONEBINS_DOWN = 0.586;
 	public static final double ELEVATOR_TWOBINS_DOWN = 0.440;
 	public static final double ELEVATOR_THREEBINS_DOWN = 0.301;

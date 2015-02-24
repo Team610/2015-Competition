@@ -22,6 +22,7 @@ public class T_Intake extends Command {
 	private Intake intake;
 	// Singleton instance of the driver;
 	private Joystick driver;
+	private Joystick operator;
 	boolean intaking = false;
 	// Timer for the 0.5 second delay on the intake.
 	Timer rollerTimer = new Timer();
@@ -31,6 +32,7 @@ public class T_Intake extends Command {
 		oi = OI.getInstance();
 		intake = Intake.getInstance();
 		driver = oi.getDriver();
+		operator = oi.getOperator();
 		requires(intake);
 	}
 
@@ -52,7 +54,7 @@ public class T_Intake extends Command {
 		if (driver.getRawButton(InputConstants.BTN_L1)) {
 			intake.setIntakeOpen(true);
 
-		} else if (driver.getRawButton(InputConstants.BTN_R1)||driver.getRawButton(InputConstants.BTN_R1)) {
+		} else if (driver.getRawButton(InputConstants.BTN_R1)||operator.getRawButton(InputConstants.BTN_R1)) {
 
 			intake.setIntakeSpeed(1);
 		} else if (driver.getRawButton(InputConstants.BTN_R2) && !intaking) {

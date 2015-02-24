@@ -52,6 +52,10 @@ public class Intake extends Subsystem {
 	} public void setRightRoller(double v){
 		rightRoller.set(v);
 	}
+	public void setIntakeSameSpeed(double v){
+		leftRoller.set(v);
+		rightRoller.set(v);
+	}
 	public void setIntakeOpen(boolean open){
 		isOpen = open;
 		if(isOpen){
