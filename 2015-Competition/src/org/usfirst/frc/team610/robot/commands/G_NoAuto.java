@@ -9,5 +9,6 @@ public class G_NoAuto extends CommandGroup {
 
 	public G_NoAuto() {
 
+		//Dont run anything :D 
 	}
 }

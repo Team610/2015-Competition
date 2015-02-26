@@ -1,13 +1,12 @@
 package org.usfirst.frc.team610.robot;
 
-import org.usfirst.frc.team610.robot.commands.G_NoAuto;
 import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
+import org.usfirst.frc.team610.robot.commands.G_NoAuto;
 import org.usfirst.frc.team610.robot.commands.G_Step;
 import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
 import org.usfirst.frc.team610.robot.commands.G_StepBinLeft;
-import org.usfirst.frc.team610.robot.commands.G_TurnTest;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
@@ -26,8 +25,11 @@ public class Robot extends IterativeRobot {
 	private Command readings;
 	// Commands to run at the beginning of teleop and auto.
 
-	private CommandGroup auto,noAuto,twoBinStep,twoBinLeft,twoBinRight,twoStepBinCentre,twoStepBinLeft;
+	//CommandGroup which will be instantiated to the desired Autonomous mode. 
+	private CommandGroup auto;
+	//CommandGroup which will be instantiated to our Tele-op commandGroup. 
 	private CommandGroup teleop;
+	//Get input from the driver/operator.
 	OI oi;
 	Joystick driver,operator;
 
@@ -42,25 +44,30 @@ public class Robot extends IterativeRobot {
 
 	public void robotInit() {
 
+		//Get the Singleton instance of the OI.
 		oi = OI.getInstance();
 		
 		// instantiate the command used for the autonomous and teleop period
 		readings = new D_SensorReadings();
 		// Start pushing values to the SD.
 		readings.start();
+		//Gets the single instances of driver and operator, from OI. 
 		driver = oi.getDriver();
 		operator = oi.getOperator();
 
+		//Sets our default auto to NoAuto, if the remainder of our code doesn't seem to work. 
 		auto = new G_NoAuto();
 		
-		
+		//Sets our teleop commandGroup to T_TeleopGroup, which contains Kaj,ELevator, Intake, and Crossbow Commands. 
 		teleop = new T_TeleopGroup();
 
 	}
 
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
+		
        
+		//Get the desired Autonomous mode from the drive team, and set the autoMode's value accordingly. 
 		if(driver.getRawButton(InputConstants.BTN_A)){
 			autoMode = 1;
 		}else if(driver.getRawButton(InputConstants.BTN_X)){
@@ -75,7 +82,7 @@ public class Robot extends IterativeRobot {
 			autoMode = 0;
 		}
 		
-		
+		//Switch to push the current value of autoMode to the SmartDashboad, so the Drive Team can be sure as to what Auto will run.
 		switch (autoMode) {
         case 0:
             SmartDashboard.putString("Auto", "No Auto");
@@ -105,6 +112,7 @@ public class Robot extends IterativeRobot {
 
 	public void autonomousInit() {
 		// Start autonomous and cancel teleop.
+		//Instantiate auto as whatever auto CommandGroup we decided to run. 
 		switch (autoMode) {
 		case 0:
 			auto = new G_NoAuto();
@@ -122,11 +130,13 @@ public class Robot extends IterativeRobot {
 			auto = new G_StepBinCentre();
 			break;
 		case 5:
-			auto = new G_StepBinLeft();
+			auto = new G_StepBinLeft();	
 			break;
 		}
 
+		//Start the chosen Autonomous command. 
 		auto.start();
+		//Cancel the tele-op command, in case it was running before autonomous began. 
 		teleop.cancel();
 		// Start pushing sensor readings to the SD.
 		readings.start();
@@ -139,7 +149,7 @@ public class Robot extends IterativeRobot {
 	}
 
 	public void teleopInit() {
-		// Cancel the autonomous in case it didn't end in time.
+		// Cancel the autonomous in case it didn't end after Auto.
 		auto.cancel();
 		// Create the teleop command and start it.
 		teleop.start();
