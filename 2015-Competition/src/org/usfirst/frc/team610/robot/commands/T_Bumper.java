@@ -3,6 +3,7 @@ package org.usfirst.frc.team610.robot.commands;
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
 import org.usfirst.frc.team610.robot.subsystems.Bumper;
+import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
 
@@ -10,14 +11,16 @@ import edu.wpi.first.wpilibj.command.Command;
  *
  */
 public class T_Bumper extends Command {
-	Bumper bumper;
-	OI oi;
-	boolean wingsButtonPressed = false;
-	boolean wingsOpen = false;
+	private Bumper bumper;
+	private DriveTrain driveTrain;
+	private OI oi;
+	private boolean wingsButtonPressed = false;
+	private boolean wingsOpen = false;
 
 	public T_Bumper() {
 		// Get the singleton bumper and OI
 		bumper = Bumper.getInstance();
+		driveTrain = DriveTrain.getInstance();
 		oi = OI.getInstance();
 		requires(bumper);
 	}
@@ -46,6 +49,9 @@ public class T_Bumper extends Command {
 
 		bumper.setWingsOpen(wingsOpen);
 		
+		if(driveTrain.getPitch() < -30){
+			bumper.setArmsUp(false);
+		}
 
 	}
 

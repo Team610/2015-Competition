@@ -121,6 +121,12 @@ public class DriveTrain extends Subsystem {
 		right.reset();
 		left.reset();
 	}
+	
+	//Get Pitch
+	public double getPitch() {
+		return imu.getPitch();
+		
+	}
 
 	public void initDefaultCommand() {
 		// Set the default command for a subsystem here.
