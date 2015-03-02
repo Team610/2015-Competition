@@ -1,12 +1,14 @@
 package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
+import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.ElevatorConstants;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
 import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
@@ -17,6 +19,7 @@ public class T_Elevator extends Command {
 
 	// Singleton Elevator
 	private Elevator elevator;
+	PowerDistributionPanel pdp;
 	// Singleton driver and operator joysticks.
 	private Joystick driver, operator;
 	// Singleton subsystem for joysticks.
@@ -46,6 +49,8 @@ public class T_Elevator extends Command {
 	private boolean downDIsPressed = false;
 
 	public T_Elevator() {
+		
+		pdp = new PowerDistributionPanel();
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
 		// Set oi to singleton instance of the subsystem of joysticks.
@@ -522,7 +527,12 @@ public class T_Elevator extends Command {
 
 			}
 		}
+		
+		if(pdp.getCurrent(ElectricalConstants.PDP_ELEVATOR_CHANNEL) > 35){
+			elevator.setMotor(0);
+		}else{
 		elevator.setMotor(setMotorValue);
+		}
 //		elevator.setMotor(0);
 
 	}

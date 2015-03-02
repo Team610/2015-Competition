@@ -12,6 +12,10 @@ public class ElectricalConstants {
 	public static final int TALON_RIGHT_ROLLER = 8;
 	public static final int TALON_WINCH = 5;
 	public static final int PDP_WINCH_CHANNEL = 13;
+	//ALL UNTESTED
+	public static final int PDP_LEFTROLLER_CHANNEL = 14;
+	public static final int PDP_RIGHTROLLER_CHANNEL = 15;
+	public static final int PDP_ELEVATOR_CHANNEL = 16;
 
 	// Intake ports
 	public static final int INTAKE_SOL_F = 3;
