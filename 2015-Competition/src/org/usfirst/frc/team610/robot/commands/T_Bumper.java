@@ -6,6 +6,7 @@ import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
 import edu.wpi.first.wpilibj.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 /**
  *
@@ -49,9 +50,8 @@ public class T_Bumper extends Command {
 
 		bumper.setWingsOpen(wingsOpen);
 		
-		if(driveTrain.getPitch() < -30){
-			bumper.setArmsUp(false);
-		}
+
+		SmartDashboard.putNumber("Pitch", driveTrain.getPitch());
 
 	}
 

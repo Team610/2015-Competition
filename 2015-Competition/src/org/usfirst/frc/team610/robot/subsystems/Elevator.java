@@ -47,11 +47,12 @@ public class Elevator extends Subsystem {
     public void setMotor(double upSpeed){
     	//Send positive goes up
     	//WARNING: Constant is not confirmed yet as correct
-    	if(pdp.getCurrent(ElectricalConstants.PDP_ELEVATOR_CHANNEL) > 50){
-    		motorTalon.set(0);
-    	}else{
-    		motorTalon.set(-upSpeed);
-    	}
+//    	if(pdp.getCurrent(ElectricalConstants.PDP_ELEVATOR_CHANNEL) > 50){
+//    		motorTalon.set(0);
+//    	}else{
+//    	}
+		motorTalon.set(-upSpeed);
+
     }
     public double getPot(){
     	return pot.get();

@@ -1,7 +1,9 @@
 package org.usfirst.frc.team610.robot.commands;
 
+
 import org.usfirst.frc.team610.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.command.Command;
 
 /**
@@ -18,6 +20,7 @@ public class A_SetIntakeOpen extends Command {
 	private boolean sensor;
 	private boolean sensed = false;
 	double timeout = 0;
+	Timer timer;
 
 	public A_SetIntakeOpen(boolean position, boolean sensor, double timeout) {
 		// Get the singleton bumper.
@@ -29,12 +32,16 @@ public class A_SetIntakeOpen extends Command {
 		if (timeout != 0) {
 			setTimeout(timeout);
 		}
+		timer = new Timer();
+		timer.reset();
+		
 		requires(intake);
 	}
 
 	// Unused
 	protected void initialize() {
 		System.out.println("A_SetIntakeOpen");
+		timer.start();
 
 	}
 
@@ -44,7 +51,7 @@ public class A_SetIntakeOpen extends Command {
 			if (intake.getOptical()) {
 				intake.setIntakeSpeed(1);
 				intake.setIntakeOpen(true);
-			} else {
+			} else if(!intake.getOptical()&&timer.get()>3){
 				intake.setIntakeOpen(false);
 				intake.setIntakeSpeed(0);
 				sensed = true;

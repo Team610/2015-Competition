@@ -110,6 +110,7 @@ public class T_Elevator extends Command {
 		if (operator.getRawButton(InputConstants.BTN_X)) {
 			stackingType = ElevatorConstants.carryingTote;
 		}
+		SmartDashboard.putNumber("StackingType", stackingType);
 
 		// D Pad input from driver
 		getPov = operator.getPOV();
@@ -528,11 +529,9 @@ public class T_Elevator extends Command {
 			}
 		}
 		
-		if(pdp.getCurrent(ElectricalConstants.PDP_ELEVATOR_CHANNEL) > 35){
-			elevator.setMotor(0);
-		}else{
+	
 		elevator.setMotor(setMotorValue);
-		}
+		
 //		elevator.setMotor(0);
 
 	}

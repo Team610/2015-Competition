@@ -14,9 +14,9 @@ public class G_StepBinLeft extends CommandGroup {
     	addParallel(new A_SetWingsOpen(true));
     	addParallel(new A_SetWingsOpen(true));
     	addParallel(new A_SetArmUp(false));
-    	addSequential(new A_PositionMove(-49, 1)); // 49
+    	addSequential(new A_PositionMove(-63, 1)); // 49
 
-		addSequential(new A_PositionMove(150,0.6));
+		addSequential(new A_PositionMove(165,0.6));
     	addParallel(new A_SetWingsOpen(false));
 
     	addSequential(new A_SetArmUp(true));
