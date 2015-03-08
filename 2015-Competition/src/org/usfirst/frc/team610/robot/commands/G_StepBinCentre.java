@@ -14,9 +14,9 @@ public class G_StepBinCentre extends CommandGroup {
     	//addParallel(new A_SetWingsOpen(true));
     	//addParallel(new A_SetWingsOpen(true));
     	addParallel(new A_SetArmUp(false));
-    	addSequential(new A_PositionMove(-63, 0.6)); // 49
+    	addSequential(new A_PositionMove(-58, 0.6)); // 49
 
-		addSequential(new A_PositionMove(165,0.6));
+		addSequential(new A_PositionMove(160,0.6));
 		addSequential(new A_SetWingsOpen(false));
     	
 		addSequential(new A_SetArmUp(true));
