@@ -2,6 +2,7 @@ package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
@@ -50,6 +51,24 @@ public class T_Bumper extends Command {
 
 		bumper.setWingsOpen(wingsOpen);
 		
+		//winch should only run when the wings are open
+		if(wingsOpen){
+			//unwind winch to max unwind position
+			if(oi.getDriver().getRawButton(InputConstants.BTN_L1)){
+								
+				double diff = bumper.getWinchEnc() - PIDConstants.winchMin;
+				bumper.setWinch(diff * PIDConstants.winchD);
+				
+			}
+			//wind up winch to max wind position
+			else if(oi.getDriver().getRawButton(InputConstants.BTN_L2)){
+				double diff = bumper.getWinchEnc() - PIDConstants.winchMax;
+				bumper.setWinch(diff * PIDConstants.winchD);
+			}
+			else{
+				bumper.setWinch(0);
+			}
+		}
 
 		SmartDashboard.putNumber("Pitch", driveTrain.getPitch());
 

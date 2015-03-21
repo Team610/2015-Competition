@@ -18,7 +18,10 @@ public class Bumper extends Subsystem {
 	// DoubleSolenoid for the wings
 	DoubleSolenoid wings;
 	
-
+	
+	Talon winch;
+	Encoder winchEnc;
+	
 	// PDP in order to check the current to the winch, to prevent the motor from
 	// stalling
 	PowerDistributionPanel pdp;
@@ -37,6 +40,12 @@ public class Bumper extends Subsystem {
 		wings = new DoubleSolenoid(ElectricalConstants.BUMPER_SOLENOID_WING1,
 				ElectricalConstants.BUMPER_SOLENOID_WING2);
 
+		// WARNING: Port isn't set yet, should be confirmed in constants
+		winch = new Talon(ElectricalConstants.TALON_WINCH);
+		
+		winchEnc = new Encoder(ElectricalConstants.BUMPER_ENCODER_WINCH1,
+				ElectricalConstants.BUMPER_ENCODER_WINCH2);
+		
 		pdp = new PowerDistributionPanel();
 	}
 
@@ -81,6 +90,18 @@ public class Bumper extends Subsystem {
 	public double getCurrent() {
 		return pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL);
 
+	}
+	
+	//MAY NEED TO FLIP DIRECTION OF WINCH
+	public void setWinch(double speed){
+		winch.set(speed);
+	}
+	
+	public double getWinchEnc(){
+		return winchEnc.getDistance();
+	}
+	public void resetWinchEnc(){
+		winchEnc.reset();
 	}
 
 }
