@@ -29,6 +29,7 @@ public class OI extends Subsystem {
 		if(instance == null){
 			//Create a new OI and save it in OI.
 			instance = new OI();
+			
 		}
 		//Return the singleton OI.
 		return instance;
@@ -41,6 +42,7 @@ public class OI extends Subsystem {
 	public Joystick getDriver(){
 		return driver;
 	}
+	
 	
 	/**
 	 * Get Nicholas's joystick.

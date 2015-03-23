@@ -17,9 +17,11 @@ public class Bumper extends Subsystem {
 	DoubleSolenoid arm;
 	// DoubleSolenoid for the wings
 	DoubleSolenoid wings;
+
 	//Talon for the Winch
-	Talon winchTalon;
-	Encoder winchEncoder;
+	Talon winch;
+	Encoder winchEnc;
+
 
 	// PDP in order to check the current to the winch, to prevent the motor from
 	// stalling
@@ -38,8 +40,15 @@ public class Bumper extends Subsystem {
 				ElectricalConstants.BUMPER_SOLENOID_ARM2);
 		wings = new DoubleSolenoid(ElectricalConstants.BUMPER_SOLENOID_WING1,
 				ElectricalConstants.BUMPER_SOLENOID_WING2);
-		winchTalon = new Talon(ElectricalConstants.TALON_WINCH);
-		winchEncoder = new Encoder(ElectricalConstants.BUMPER_ENCODER_WINCH1,ElectricalConstants.BUMPER_ENCODER_WINCH2);
+
+
+		// WARNING: Port isn't set yet, should be confirmed in constants
+		winch = new Talon(ElectricalConstants.TALON_WINCH);
+		
+		winchEnc = new Encoder(ElectricalConstants.BUMPER_ENCODER_WINCH1,
+				ElectricalConstants.BUMPER_ENCODER_WINCH2);
+		
+
 		pdp = new PowerDistributionPanel();
 	}
 
@@ -56,20 +65,14 @@ public class Bumper extends Subsystem {
 		return instance;
 	}
 	
-	public void runWinchTele(){
-		if(winchEncoder.get() < 10){
-			winchTalon.set(1);
-		}else{
-			winchTalon.set(0);
-		}
-	}
-	public void runWinchAuto(int amount){
-		if(winchEncoder.get() < amount){
-			winchTalon.set(1);
-		}else{
-			winchTalon.set(0);
-		}
-	}
+	
+//	public void runWinchAuto(int amount){
+//		if(winchEnc.get() < amount){
+//			winch.set(1);
+//		}else{
+//			winch.set(0);
+//		}
+//	}
 
 	// Method to change position of the arms, if position is true, bring the
 	// arms up. If false, set the arms down
@@ -93,6 +96,15 @@ public class Bumper extends Subsystem {
 			wings.set(DoubleSolenoid.Value.kReverse);
 		}
 	}
+	
+	public void turnWinchOn(){
+		winch.set(1);
+	}public void turnWinchOff(){
+		winch.set(0);
+	}public void runWinchBack(){
+		winch.set(-0.5);
+	}
+	
 
 	
 	// Gets the current from the Winch, Currently deprecated.
@@ -100,5 +112,17 @@ public class Bumper extends Subsystem {
 		return pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL);
 
 	}
+	
+	//MAY NEED TO FLIP DIRECTION OF WINCH
+//	public void setWinch(double speed){
+//		winch.set(speed);
+//	}
+//	
+//	public double getWinchEnc(){
+//		return winchEnc.getDistance();
+//	}
+//	public void resetWinchEnc(){
+//		winchEnc.reset();
+//	}
 
 }

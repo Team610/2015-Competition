@@ -14,6 +14,11 @@ public class PIDConstants {
 	
 	public static final double TURN_GYRO_P = -0.09;
 	public static final double TURN_GYRO_D = -0.7;
+	
+	//WINCH CONSTANTS ------ UNTESTED
+	public static final double winchMin = 0;
+	public static final double winchMax = 10;
+	public static final double winchD = .5;
 
 	
 	
