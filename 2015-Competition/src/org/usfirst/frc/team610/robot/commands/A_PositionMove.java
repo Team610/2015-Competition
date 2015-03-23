@@ -25,9 +25,7 @@ public class A_PositionMove extends Command {
 	private double gyroError;
 	// The amount we need to move to arrive at tInches.
 	private double encoderError;
-	// Count how long we've been in our target zone.
-	private int targetCounter = 0;
-
+	//Count how long we've been within our target distance, is used to finish the command. 
 	private int tick = 0;
 
 	/**
@@ -97,27 +95,40 @@ public class A_PositionMove extends Command {
 		lastGyroError = gyroError;
 		lastEncoderError = encoderError;
 
+		//Place Readings for the SmartDashboard.
+		//Places the speed of the leftSide of the driveTrain.
 		SmartDashboard.putNumber("leftSpeed", leftSpeed);
+		//Places the speed of the rightSide of the driveTrain.
 		SmartDashboard.putNumber("rightSpeed", rightSpeed);
+		//Instantiate a PowerDistributionPanel. 
 		PowerDistributionPanel pdp =  new PowerDistributionPanel();
+		//Places the currentdraw of port 14 to the SmartDashBoard. 
 		SmartDashboard.putNumber("current", pdp.getCurrent(14));
 
 
 	}
 
 	protected boolean isFinished() {
-		// return false;
+		//Send # of ticks to SmartDashboard.
 		SmartDashboard.putNumber("FinishTicks", tick);
-
+		/*
+		 * If our targetInches is zero, A_PositionMove is used as a wait, so isFinished will return
+		 * whatever state isTimedOut is currently in. If it is false, it will wait for it to finish,
+		 * causing the command to end.   
+		*/		
 		if (tInches == 0) {
 			return isTimedOut();
 		} else {
+			//If within our target area, increment tick. 
 			if (Math.abs(driveTrain.getAvgDistance() - tInches) < 5) {
+				//Increment tick. 
 				tick++;
-			} else {
+				//If we are outside of our target zone, reset the tick counter. 
+			} else {	
 				tick = 0;
 			}
 
+			//If tick has reached our desired amount, stop the drivetrain, and end the command. 
 			if (tick > 10) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);

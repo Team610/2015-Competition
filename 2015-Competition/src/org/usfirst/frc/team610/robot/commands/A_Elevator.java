@@ -77,6 +77,7 @@ public class A_Elevator extends Command {
 
 			}
 		}
+		
 		elevator.setMotor(setMotorValue);
 
 	}
