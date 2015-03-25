@@ -57,6 +57,7 @@ public class T_Bumper extends Command {
 			bumper.turnWinchOn();
 		}else if(oi.getOperator().getRawButton(InputConstants.BTN_BACK)){
 			bumper.turnWinchOff();
+			//bumper.runWinchBack(); ????
 		}else{
 			bumper.turnWinchOff();
 		}
