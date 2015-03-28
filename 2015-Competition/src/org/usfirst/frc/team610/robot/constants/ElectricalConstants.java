@@ -27,7 +27,10 @@ public class ElectricalConstants {
 	public static final int DRIVETRAIN_ENCODER_LEFT_B = 3;
 	public static final int DRIVETRAIN_ENCODER_RIGHT_A = 0;
 	public static final int DRIVETRAIN_ENCODER_RIGHT_B = 1;
-
+	
+	// UNTESTED
+	public static final int BUMPER_WINCH_ENCODER_A = 5;
+	public static final int BUMPER_WINCH_ENCODER_B = 6;
 	
 	public static final int POT_ANALOGPORT = 0;
 	public static final int OPTICALSENSOR_PORT = 4;

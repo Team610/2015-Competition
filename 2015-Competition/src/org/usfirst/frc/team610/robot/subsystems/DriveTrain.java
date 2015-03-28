@@ -55,11 +55,15 @@ public class DriveTrain extends Subsystem {
 			LiveWindow.addSensor("IMU", "Gyro", imu);
 		}
 	}
-
+	
+	//Returns singleton instance of the drivetrain
 	public static DriveTrain getInstance() {
+		//Drivetrain not created yet
 		if (instance == null) {
+			//Create new Drivetrain
 			instance = new DriveTrain();
 		}
+		//Return singleton drivetrain
 		return instance;
 	}
 

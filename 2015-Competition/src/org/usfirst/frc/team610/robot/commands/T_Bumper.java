@@ -2,6 +2,7 @@ package org.usfirst.frc.team610.robot.commands;
 
 import org.usfirst.frc.team610.robot.OI;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
+import org.usfirst.frc.team610.robot.constants.PIDConstants;
 import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
 
@@ -57,6 +58,7 @@ public class T_Bumper extends Command {
 		}
 
 		bumper.setWingsOpen(wingsOpen);
+
 
 		SmartDashboard.putNumber("Pitch", driveTrain.getPitch());
 
