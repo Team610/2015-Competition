@@ -58,6 +58,8 @@ public class A_PositionMoveArm extends Command {
 		// If we are holding the current position, hold it for 90 seconds.
 		if (tInches == 0) {
 			setTimeout(0.5);
+		} else{
+			setTimeout(3);
 		}
 	}
 
@@ -124,13 +126,13 @@ public class A_PositionMoveArm extends Command {
 		if (tInches == 0) {
 			return isTimedOut();
 		} else {
-			if (Math.abs(driveTrain.getAvgDistance() - tInches) < 5) {
+			if (Math.abs(driveTrain.getRightDistance() - tInches) < 5) {
 				tick++;
 			} else {
 				tick = 0;
 			}
 
-			if (tick > 0) {
+			if (tick > 10) {
 				driveTrain.setLeft(0);
 				driveTrain.setRight(0);
 
@@ -140,7 +142,7 @@ public class A_PositionMoveArm extends Command {
 			} else {
 
 				// System.out.println("A_Position not finished");
-				return false;
+				return isTimedOut();
 
 			}
 		}

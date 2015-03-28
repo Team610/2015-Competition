@@ -27,7 +27,7 @@ public class T_Bumper extends Command {
 	}
 
 	protected void initialize() {
-		wingsOpen = false;
+		wingsOpen = true;
 		System.out.println("T_Bumper");
 	}
 
@@ -47,9 +47,16 @@ public class T_Bumper extends Command {
 		} else if (!oi.getDriver().getRawButton(InputConstants.BTN_X)) {
 			wingsButtonPressed = false;
 		}
+		if (oi.getOperator().getRawButton(InputConstants.BTN_Y)) {
+			bumper.setWinch(0.75);
+		} else if (oi.getOperator().getRawButton(InputConstants.BTN_BACK)) {
+			bumper.setWinch(-0.75);
+
+		} else {
+			bumper.setWinch(0);
+		}
 
 		bumper.setWingsOpen(wingsOpen);
-		
 
 		SmartDashboard.putNumber("Pitch", driveTrain.getPitch());
 

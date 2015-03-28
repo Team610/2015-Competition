@@ -46,7 +46,6 @@ public class T_Intake extends Command {
 		SmartDashboard.putBoolean("Optical Sensor", intake.getOptical());
 
 		if (driver.getRawButton(InputConstants.BTN_L2)) {
-			intake.setIntakeOpen(true);
 			intake.setLeftRoller(DriveTrain.getInstance().getLeftVbus());
 			intake.setRightRoller(DriveTrain.getInstance().getRightVbus());
 			
@@ -69,7 +68,6 @@ public class T_Intake extends Command {
 				intake.setIntakeOpen(false);
 			} else {
 				// If no object is there yet, leave the intake open and intake.
-				intake.setIntakeOpen(true);
 				intake.setIntakeSpeed(1);
 			}
 

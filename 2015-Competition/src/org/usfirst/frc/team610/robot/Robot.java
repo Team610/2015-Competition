@@ -8,11 +8,15 @@ import org.usfirst.frc.team610.robot.commands.G_Step;
 import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
 import org.usfirst.frc.team610.robot.commands.G_StepBinLeft;
 import org.usfirst.frc.team610.robot.commands.T_TeleopGroup;
+import org.usfirst.frc.team610.robot.constants.ElectricalConstants;
 import org.usfirst.frc.team610.robot.constants.InputConstants;
+import org.usfirst.frc.team610.robot.subsystems.Bumper;
 import org.usfirst.frc.team610.robot.subsystems.DriveTrain;
+import org.usfirst.frc.team610.robot.subsystems.Elevator;
 
 import edu.wpi.first.wpilibj.IterativeRobot;
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.PowerDistributionPanel;
 import edu.wpi.first.wpilibj.command.Command;
 import edu.wpi.first.wpilibj.command.CommandGroup;
 import edu.wpi.first.wpilibj.command.Scheduler;
@@ -60,12 +64,22 @@ public class Robot extends IterativeRobot {
 		
 		//Sets our teleop commandGroup to T_TeleopGroup, which contains Kaj,ELevator, Intake, and Crossbow Commands. 
 		teleop = new T_TeleopGroup();
+		
+	}
+	public void disabledInit(){
 
 	}
-
 	public void disabledPeriodic() {
 		Scheduler.getInstance().run();
-		
+		PowerDistributionPanel pdp = new PowerDistributionPanel();
+		SmartDashboard.putNumber("Right Distance",
+				DriveTrain.getInstance().getRightDistance());
+		SmartDashboard.putNumber("Left Distance", DriveTrain.getInstance().getLeftDistance());
+		SmartDashboard.putNumber("Gyro", DriveTrain.getInstance().getYaw());
+		SmartDashboard.putNumber("Current Draw of Elevator", pdp.getCurrent(2));
+		SmartDashboard.putNumber("Current Draw of Winch", pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL));
+		SmartDashboard.putNumber("Elevator Pot", Elevator.getInstance().getPot());
+		SmartDashboard.putBoolean("Arm is out", Bumper.armsIsOut);
        
 		//Get the desired Autonomous mode from the drive team, and set the autoMode's value accordingly. 
 		if(driver.getRawButton(InputConstants.BTN_A)){
@@ -88,7 +102,7 @@ public class Robot extends IterativeRobot {
             SmartDashboard.putString("Auto", "No Auto");
             break;
         case 1:
-            SmartDashboard.putString("Auto", "Two Step");
+            SmartDashboard.putString("Auto", "Four Step");
 
             break;
         case 2:
@@ -159,10 +173,6 @@ public class Robot extends IterativeRobot {
 		readings.start();
 	}
 
-	public void disabledInit() {
-		// Start pushing sensor readings to the SD.
-		readings.start();
-	}
 
 	public void teleopPeriodic() {
 		Scheduler.getInstance().run();
