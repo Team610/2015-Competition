@@ -28,7 +28,7 @@ public class T_Bumper extends Command {
 	}
 
 	protected void initialize() {
-		wingsOpen = true;
+		wingsOpen = bumper.getWingsOpen();
 		System.out.println("T_Bumper");
 	}
 

@@ -56,7 +56,7 @@ public class A_PositionMove extends Command {
 		gyroError = 0;
 		// If we are holding the current position, hold it for 90 seconds.
 		if (tInches == 0) {
-			setTimeout(2);
+			setTimeout(0.5);
 		}
 	}
 

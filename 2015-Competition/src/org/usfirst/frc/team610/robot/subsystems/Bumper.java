@@ -75,8 +75,8 @@ public class Bumper extends Subsystem {
 	// wings up. If false, set the arms down
 
 	public void setWingsOpen(boolean position) {
-		wingsOpen = position;
-
+		
+		
 		if (position) {
 			wings.set(DoubleSolenoid.Value.kForward);
 		} else {
@@ -84,7 +84,11 @@ public class Bumper extends Subsystem {
 		}
 	}
 	public boolean getWingsOpen(){
-		return wingsOpen;
+		if(wings.get()==DoubleSolenoid.Value.kForward){
+			return true;
+		} else {
+			return false;
+		}
 	}
 
 	

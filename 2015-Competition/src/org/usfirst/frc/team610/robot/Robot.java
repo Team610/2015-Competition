@@ -3,6 +3,7 @@ package org.usfirst.frc.team610.robot;
 import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
+import org.usfirst.frc.team610.robot.commands.G_Block;
 import org.usfirst.frc.team610.robot.commands.G_NoAuto;
 import org.usfirst.frc.team610.robot.commands.G_Step;
 import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
@@ -44,6 +45,7 @@ public class Robot extends IterativeRobot {
 	// 3: Two Bins Left
 	// 4: Two Step Bin Centre
 	// 5: Two Step Bin Left
+	// 6: Step block
 	private int autoMode = 0;
 
 	public void robotInit() {
@@ -92,7 +94,11 @@ public class Robot extends IterativeRobot {
 			autoMode = 4;
 		}else if(operator.getRawButton(InputConstants.BTN_A)){
 			autoMode = 5;
-		}else if (operator.getRawButton(InputConstants.BTN_B)){
+		} else if(operator.getRawButton(InputConstants.BTN_X)){
+			autoMode = 6;
+		}
+			else if (operator.getRawButton(InputConstants.BTN_B)){
+		
 			autoMode = 0;
 		}
 		
@@ -117,6 +123,9 @@ public class Robot extends IterativeRobot {
             break;
         case 5:
             SmartDashboard.putString("Auto", "Two Step Bin Left");
+            break;
+        case 6:
+            SmartDashboard.putString("Auto", "Step Block");
             break;
     
     }
@@ -145,6 +154,9 @@ public class Robot extends IterativeRobot {
 			break;
 		case 5:
 			auto = new G_StepBinLeft();	
+			break;
+		case 6:
+			auto = new G_Block();
 			break;
 		}
 
