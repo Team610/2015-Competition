@@ -149,6 +149,7 @@ public class A_PositionMoveArm extends Command {
 	}
 
 	protected void end() {
+		System.out.println("Position Move Arm Finished");
 	}
 
 	protected void interrupted() {

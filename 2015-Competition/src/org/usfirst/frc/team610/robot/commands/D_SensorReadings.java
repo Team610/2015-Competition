@@ -21,12 +21,15 @@ public class D_SensorReadings extends Command {
 	PowerDistributionPanel pdp;
 	// The singleton  Elevator
 	Elevator elevator;
+	
+	Bumper bumper;
 
 	public D_SensorReadings() {
 		// Gets the singleton instance of the drivetrain
 		driveTrain = DriveTrain.getInstance();
 		// Gets the singleton instance of the elevator
 		elevator = Elevator.getInstance();
+		bumper = Bumper.getInstance();
 		pdp = new PowerDistributionPanel();
 		// Use requires() here to declare subsystem dependencies
 		// eg. requires(chassis);
@@ -56,6 +59,7 @@ public class D_SensorReadings extends Command {
 		SmartDashboard.putNumber("Current Draw of Winch", pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL));
 		SmartDashboard.putNumber("Elevator Pot", elevator.getPot());
 		SmartDashboard.putBoolean("Arm is out", Bumper.armsIsOut);
+		SmartDashboard.putBoolean("Wings Up", bumper.getWingsOpen());
 
 	}
 

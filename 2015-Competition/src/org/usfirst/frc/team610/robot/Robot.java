@@ -4,6 +4,7 @@ import org.usfirst.frc.team610.robot.commands.D_SensorReadings;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoLeft;
 import org.usfirst.frc.team610.robot.commands.G_BinTwoRight;
 import org.usfirst.frc.team610.robot.commands.G_Block;
+import org.usfirst.frc.team610.robot.commands.G_BlockThenFour;
 import org.usfirst.frc.team610.robot.commands.G_NoAuto;
 import org.usfirst.frc.team610.robot.commands.G_Step;
 import org.usfirst.frc.team610.robot.commands.G_StepBinCentre;
@@ -41,7 +42,7 @@ public class Robot extends IterativeRobot {
 	// Command to run during auto.
 	// 0: None
 	// 1: Two Step
-	// 2: Two Bins Right
+	// 2: Block Then Four
 	// 3: Two Bins Left
 	// 4: Two Step Bin Centre
 	// 5: Two Step Bin Left
@@ -82,6 +83,7 @@ public class Robot extends IterativeRobot {
 		SmartDashboard.putNumber("Current Draw of Winch", pdp.getCurrent(ElectricalConstants.PDP_WINCH_CHANNEL));
 		SmartDashboard.putNumber("Elevator Pot", Elevator.getInstance().getPot());
 		SmartDashboard.putBoolean("Arm is out", Bumper.armsIsOut);
+		SmartDashboard.putBoolean("Wings Up", Bumper.getInstance().getWingsOpen());
        
 		//Get the desired Autonomous mode from the drive team, and set the autoMode's value accordingly. 
 		if(driver.getRawButton(InputConstants.BTN_A)){
@@ -89,11 +91,11 @@ public class Robot extends IterativeRobot {
 		}else if(driver.getRawButton(InputConstants.BTN_X)){
 			autoMode = 2;
 		} else if(driver.getRawButton(InputConstants.BTN_B)){
-			autoMode = 3;
+//			autoMode = 3;
 		}else if(driver.getRawButton(InputConstants.BTN_Y)){
-			autoMode = 4;
+//			autoMode = 4;
 		}else if(operator.getRawButton(InputConstants.BTN_A)){
-			autoMode = 5;
+//			autoMode = 5;
 		} else if(operator.getRawButton(InputConstants.BTN_X)){
 			autoMode = 6;
 		}
@@ -112,7 +114,7 @@ public class Robot extends IterativeRobot {
 
             break;
         case 2:
-            SmartDashboard.putString("Auto", "Two Right");
+            SmartDashboard.putString("Auto", "Block Then Four");
 
             break;
         case 3:
@@ -144,7 +146,7 @@ public class Robot extends IterativeRobot {
 			auto = new G_Step();
 			break;
 		case 2:
-			auto = new G_BinTwoRight();
+			auto = new G_BlockThenFour();
 			break;
 		case 3:
 			auto = new G_BinTwoLeft();
