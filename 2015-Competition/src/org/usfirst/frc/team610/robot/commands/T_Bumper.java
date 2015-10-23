@@ -17,7 +17,7 @@ public class T_Bumper extends Command {
 	private DriveTrain driveTrain;
 	private OI oi;
 	private boolean wingsButtonPressed = false;
-	private boolean wingsOpen = false;
+	private boolean wingsOpen = true;
 
 	public T_Bumper() {
 		// Get the singleton bumper and OI
